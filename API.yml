@@ -1,0 +1,419 @@
+---
+openapi: 3.0.0
+info:
+  title: Books example
+  description: The books API description
+  version: '1.0'
+tags:
+  - name: attendees
+    description: Find out who is attending a conference
+servers:
+  - url: 'https://api.conferences.com'
+paths:
+  "/":
+    get:
+      operationId: AppController_getHello
+      responses:
+        '200':
+          description: ''
+  "/books":
+    post:
+      operationId: BooksController_create
+      summary: Создание книги
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CreateBookDto"
+      responses:
+        '201':
+          description: ''
+      tags:
+        - books
+    get:
+      operationId: BooksController_findAll
+      summary: Получение списка книг
+      parameters:
+        - name: name
+          required: false
+          in: query
+          description: Название книги
+          schema:
+            type: string
+        - name: author
+          required: false
+          in: query
+          description: Автор
+          schema:
+            type: string
+        - name: description
+          required: false
+          in: query
+          description: Описание
+          schema:
+            type: string
+        - name: yearFrom
+          required: false
+          in: query
+          description: Год от, в формате "yyyy"
+          schema:
+            type: number
+        - name: yearTo
+          required: false
+          in: query
+          description: Год до, в формате "yyyy"
+          schema:
+            type: number
+        - name: genreIds
+          required: false
+          in: query
+          description: Список id жанров
+          schema:
+            type: array
+            items:
+              type: number
+      responses:
+        '200':
+          description: The found record.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Book"
+      tags:
+        - books
+  "/books/{id}":
+    get:
+      operationId: BooksController_findOne
+      summary: Получение конкретной книги по её id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: The found record.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Book"
+      tags:
+        - books
+    patch:
+      operationId: BooksController_update
+      summary: Обновление данных книги
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UpdateBookDto"
+      responses:
+        '200':
+          description: ''
+      tags:
+        - books
+    delete:
+      operationId: BooksController_remove
+      summary: Удаление книги
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags:
+        - books
+  "/genre":
+    get:
+      operationId: GenreController_findAll
+      summary: Список жанров
+      responses:
+        '200':
+          description: The found record.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Genre"
+      tags:
+        - genre
+  "/auth/login":
+    post:
+      operationId: AuthController_login
+      summary: Авторизация по логину/паролю
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/LoginDto"
+      responses:
+        '201':
+          description: ''
+      tags:
+        - auth
+  "/auth/profile":
+    get:
+      operationId: AuthController_getProfile
+      summary: Получение текущего пользователя
+      responses:
+        '200':
+          description: ''
+      tags:
+        - auth
+  "/auth/books":
+    post:
+      operationId: AuthController_create
+      summary: Создание книги
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CreateBookDto"
+      responses:
+        '201':
+          description: ''
+      tags:
+        - auth
+    get:
+      operationId: AuthController_findAll
+      summary: Получение списка книг
+      parameters:
+        - name: name
+          required: false
+          in: query
+          description: Название книги
+          schema:
+            type: string
+        - name: author
+          required: false
+          in: query
+          description: Автор
+          schema:
+            type: string
+        - name: description
+          required: false
+          in: query
+          description: Описание
+          schema:
+            type: string
+        - name: yearFrom
+          required: false
+          in: query
+          description: Год от, в формате "yyyy"
+          schema:
+            type: number
+        - name: yearTo
+          required: false
+          in: query
+          description: Год до, в формате "yyyy"
+          schema:
+            type: number
+        - name: genreIds
+          required: false
+          in: query
+          description: Список id жанров
+          schema:
+            type: array
+            items:
+              type: number
+      responses:
+        '200':
+          description: The found record.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Book"
+      tags:
+        - auth
+  "/auth/books/{id}":
+    get:
+      operationId: AuthController_findOne
+      summary: Получение конкретной книги по её id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: The found record.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Book"
+      tags:
+        - auth
+    patch:
+      operationId: AuthController_update
+      summary: Обновление данных книги
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UpdateBookDto"
+      responses:
+        '200':
+          description: ''
+      tags:
+        - auth
+    delete:
+      operationId: AuthController_remove
+      summary: Удаление книги
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags:
+        - auth
+  "/auth/genre":
+    get:
+      operationId: AuthController_findAllGenre
+      summary: Список жанров
+      responses:
+        '200':
+          description: The found record.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Genre"
+      tags:
+        - auth
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    CreateBookDto:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+          description: Название книги
+        author:
+          type: string
+          description: Автор
+        description:
+          type: string
+          description: Описание
+        year:
+          type: number
+          description: Год в формате "yyyy"
+        genreIds:
+          description: Список id жанров
+          type: array
+          items:
+            type: number
+      required:
+        - id
+        - name
+        - author
+        - year
+        - genreIds
+    Genre:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Название жанра
+        name:
+          type: string
+      required:
+        - id
+        - name
+    Book:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+          description: Название книги
+        author:
+          type: string
+          description: Автор
+        year:
+          type: number
+          description: Год в формате "yyyy"
+        genres:
+          description: Жанр
+          type: array
+          items:
+            "$ref": "#/components/schemas/Genre"
+        description:
+          type: string
+      required:
+        - name
+        - author
+        - year
+        - genres
+    UpdateBookDto:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+          description: Название книги
+        author:
+          type: string
+          description: Автор
+        description:
+          type: string
+          description: Описание
+        year:
+          type: number
+          description: Год в формате "yyyy"
+        genreIds:
+          description: Список id жанров
+          type: array
+          items:
+            type: number
+      required:
+        - genreIds
+    LoginDto:
+      type: object
+      properties:
+        login:
+          type: string
+          description: Логин
+        password:
+          type: string
+          description: Пароль
