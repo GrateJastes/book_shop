@@ -8,7 +8,7 @@ tags:
   - name: attendees
     description: Find out who is attending a conference
 servers:
-  - url: 'https://api.conferences.com'
+  - url: 'https://fosius-books.herokuapp.com'
 paths:
   "/":
     get:

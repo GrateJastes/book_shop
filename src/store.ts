@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { booksAPI } from './Features/BooksLoader/BooksAPI';
 
 export const store = configureStore({
-    reducer: {},
+    reducer: {
+        [booksAPI.reducerPath]: booksAPI.reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(booksAPI.middleware),
 });
 
 setupListeners(store.dispatch);

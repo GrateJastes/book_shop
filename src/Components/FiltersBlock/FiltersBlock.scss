@@ -1,0 +1,31 @@
+.filters-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  &__header {
+
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  &__filter {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  &__apply-button {
+    outline: none;
+    border: none;
+    background-color: #6a6666;
+    color: white;
+  }
+}

@@ -1,0 +1,61 @@
+.book {
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+
+  border: 1px solid white;
+  margin: 15px;
+  padding: 20px;
+
+  &__main-info {
+
+  }
+
+  &__title {
+    font-weight: bold;
+  }
+
+  &__written-by {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: smaller;
+  }
+
+  &__author {
+  }
+
+  &__year {
+    margin-left: 2px;
+  }
+
+  &__genres {
+    display: flex;
+    flex-direction: column;
+
+    margin-right: 50px;
+
+    font-size: x-small;
+    color: #6a6666;
+  }
+
+  &__genre {
+    margin: 1px;
+  }
+
+  &__edit-button {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+
+    outline: none;
+    border: none;
+  }
+}

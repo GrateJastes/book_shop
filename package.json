@@ -1,5 +1,6 @@
 {
   "name": "book_shop",
+  "proxy": "https://fosius-books.herokuapp.com",
   "version": "0.1.0",
   "private": true,
   "overrides": {
@@ -47,8 +48,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "debug": "PORT=3000 webpack serve"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

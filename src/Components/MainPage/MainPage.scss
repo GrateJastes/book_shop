@@ -1,0 +1,13 @@
+.page {
+  height: 100vh;
+  width: 100vw;
+
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__app-name {
+  }
+}
