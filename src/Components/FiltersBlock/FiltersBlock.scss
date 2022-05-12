@@ -4,28 +4,35 @@
   align-items: center;
   justify-content: flex-start;
 
-  &__header {
-
-  }
-
-  &__list {
+  &__button {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    text-align: center;
 
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+    line-height: 0;
 
-  &__filter {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+    height: 20px;
+    width: 100px;
 
-  &__apply-button {
+    padding: 15px;
+    margin-top: 20px;
+
+    font-size: larger;
+
+    border-radius: 5px;
     outline: none;
     border: none;
     background-color: #6a6666;
     color: white;
+  }
+
+  &__filter-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 }

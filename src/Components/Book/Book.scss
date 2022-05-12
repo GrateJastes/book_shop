@@ -9,8 +9,31 @@
   width: 100%;
 
   border: 1px solid white;
-  margin: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   padding: 20px;
+
+  &_editing {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__editor-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 220px;
+
+    margin-top: 15px;
+  }
+
+  &__editor-input {
+    color: black;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
 
   &__main-info {
 
@@ -52,10 +75,19 @@
 
   &__edit-button {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 5px;
+    right: 5px;
 
     outline: none;
     border: none;
+  }
+}
+
+.creator-template {
+  &__button {
+    border: none;
+    outline: none;
+
+    background: transparent;
   }
 }

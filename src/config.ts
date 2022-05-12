@@ -1,5 +1,8 @@
 const config =  {
-    backendURL: 'https://fosius-books.herokuapp.com',
+    backendURL: '/api',
+    minSearchLength: 3,
+    noOptionText: 'Минимум 3 символа',
+    booksPerPage: 10,
 }
 
 export default config;
