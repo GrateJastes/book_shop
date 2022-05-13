@@ -4,6 +4,10 @@
   align-items: center;
   justify-content: flex-start;
 
+  &__year-select {
+    width: 200px;
+  }
+
   &__button {
     display: flex;
     justify-content: center;

@@ -14,7 +14,8 @@ body {
 
 
     font-family: 'Roboto', sans-serif;
-    color: #161616;
+    color: #efefef;
+    /*color: #161616;*/
     background-color: currentColor;
 
     letter-spacing: 1px;

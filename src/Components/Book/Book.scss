@@ -8,7 +8,7 @@
 
   width: 100%;
 
-  border: 1px solid white;
+  border: 1px solid gray;
   margin-top: 15px;
   margin-bottom: 15px;
   padding: 20px;
@@ -84,10 +84,17 @@
 }
 
 .creator-template {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   &__button {
     border: none;
     outline: none;
 
     background: transparent;
+
+    font-size: x-large;
   }
 }
