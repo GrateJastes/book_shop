@@ -1,7 +1,7 @@
 import './FiltersBlock.scss';
 import React, { FormEvent, FormEventHandler, useEffect, useState } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
-import { Genre, MultiSelectOption, SearchSample, SelectOption } from '../../Features/BooksLoader/types';
+import { MultiSelectOption, SearchSample, SelectOption } from '../../Features/BooksLoader/types';
 import {
     useLazyGetSuggestionsByAuthorQuery,
     useLazyGetSuggestionsByNameQuery
@@ -19,11 +19,21 @@ export interface YearsRange {
     yearTo: number;
 }
 
+interface FilterFields {
+    name: SelectOption | null;
+    author: SelectOption | null;
+    genres: Array<MultiSelectOption> | null;
+    yearsRange: YearsRange | null;
+}
+
+
 export function FiltersBlock(props: FiltersBlockProps) {
-    const [ selectedNameOption, setSelectedNameOOption ] = useState<SelectOption | null>(null);
-    const [ selectedAuthorOption, setSelectedAuthorOption ] = useState<SelectOption | null>(null);
-    const [ selectedGenres, setSelectedGenres ] = useState<Array<MultiSelectOption> | null>(null);
-    const [ selectedYearsRange, setSelectedYearsRange ] = useState<YearsRange | null>(null);
+    const [filterFields, setFilterFields] = useState<FilterFields>({
+        name: null,
+        author: null,
+        genres: null,
+        yearsRange: null,
+    });
     const [fetchNameSuggestions, nameSuggestions] = useLazyGetSuggestionsByNameQuery();
     const [fetchAuthorSuggestions, authorSuggestions] = useLazyGetSuggestionsByAuthorQuery();
 
@@ -31,22 +41,15 @@ export function FiltersBlock(props: FiltersBlockProps) {
         ev?.preventDefault();
 
         let sample: SearchSample = {};
-        selectedNameOption && (sample.name = selectedNameOption.value);
-        selectedAuthorOption && (sample.author = selectedAuthorOption.value);
-        selectedGenres?.length && (sample.genreIds = selectedGenres.map((genre) => genre.value));
-        selectedYearsRange && (sample = {
+        filterFields.name && (sample.name = filterFields.name.value);
+        filterFields.author && (sample.author = filterFields.author.value);
+        filterFields.genres?.length && (sample.genreIds = filterFields.genres.map((genre) => genre.value));
+        filterFields.yearsRange && (sample = {
             ...sample,
-            ...selectedYearsRange,
+            ...filterFields.yearsRange,
         });
 
         props.onApply(sample);
-    };
-
-    const clearFilters = () => {
-        setSelectedYearsRange(null);
-        setSelectedAuthorOption(null);
-        setSelectedGenres(null);
-        setSelectedNameOOption(null);
     };
 
     useEffect(() => {
@@ -54,9 +57,12 @@ export function FiltersBlock(props: FiltersBlockProps) {
         applyFilters();
     }, []);
 
-    const extractYearsRange = (range: DateRange) => setSelectedYearsRange({
-        yearFrom: parseInt(range[0].getFullYear().toString()),
-        yearTo: parseInt(range[1].getFullYear().toString()),
+    const extractYearsRange = (range: DateRange) => setFilterFields({
+        ...filterFields,
+        yearsRange: {
+            yearFrom: parseInt(range[0].getFullYear().toString()),
+            yearTo: parseInt(range[1].getFullYear().toString()),
+        },
     });
 
     return (
@@ -67,8 +73,8 @@ export function FiltersBlock(props: FiltersBlockProps) {
                 <SearchBar
                     suggestions={nameSuggestions.data}
                     fetchSuggestions={fetchNameSuggestions}
-                    selectedOption={selectedNameOption}
-                    onChange={(newOption: SelectOption) => setSelectedNameOOption(newOption)}
+                    selectedOption={filterFields.name}
+                    onChange={(newOption: SelectOption) => setFilterFields({...filterFields, name: newOption})}
                     fieldName={'Введите название'}
                 />
             </div>
@@ -77,15 +83,15 @@ export function FiltersBlock(props: FiltersBlockProps) {
                 <SearchBar
                     suggestions={authorSuggestions.data}
                     fetchSuggestions={fetchAuthorSuggestions}
-                    selectedOption={selectedAuthorOption}
-                    onChange={(newOption: SelectOption) => setSelectedAuthorOption(newOption)}
+                    selectedOption={filterFields.author}
+                    onChange={(newOption: SelectOption) => setFilterFields({...filterFields, author: newOption})}
                     fieldName={'Введите имя'}
                 />
             </div>
             <div className="filters-block__filter-field">
                 <span className="filters-block__filed-name">Жанры</span>
                 <GenreSelect
-                    onChange={(newOption)=> setSelectedGenres(newOption)}
+                    onChange={(newOption) => setFilterFields({...filterFields, genres: newOption})}
                 />
             </div>
             <div className="filters-block__filter-field">
@@ -93,7 +99,12 @@ export function FiltersBlock(props: FiltersBlockProps) {
                 <YearSelect onChange={extractYearsRange}/>
             </div>
             <input type="submit" className="filters-block__button" value="Apply"/>
-            <button className="filters-block__button" onClick={clearFilters}>
+            <button className="filters-block__button" onClick={() => setFilterFields({
+                name: null,
+                author: null,
+                genres: null,
+                yearsRange: null,
+            })}>
                 Clear
             </button>
         </form>
