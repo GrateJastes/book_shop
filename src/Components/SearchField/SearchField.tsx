@@ -1,8 +1,8 @@
 import React from 'react';
 import Select, { SingleValue } from 'react-select';
-import './SearchBar.scss'
 import cfg from '../../config';
 import { SelectOption } from '../../Features/BooksLoader/types';
+import './SearchField.scss'
 
 
 export interface ISearchBarProps {
@@ -13,7 +13,7 @@ export interface ISearchBarProps {
     onChange: (newOption: SelectOption) => void;
 }
 
-function SearchBar(props: ISearchBarProps) {
+function SearchField(props: ISearchBarProps) {
     const refreshSuggestions = (searchQuery: string) => {
         if (searchQuery.length >= cfg.minSearchLength) {
             props.fetchSuggestions(searchQuery);
@@ -24,13 +24,14 @@ function SearchBar(props: ISearchBarProps) {
         if (!newValue) {
             return;
         }
-        props.onChange({value: newValue.value, label: newValue.label});
+
+        props.onChange({ value: newValue.value, label: newValue.label });
     };
 
     return (
         <Select
             placeholder={props.fieldName}
-            className="search-bar"
+            className="search-field"
             noOptionsMessage={() => <span>{cfg.noOptionText}</span>}
             onInputChange={refreshSuggestions}
             options={props.suggestions}
@@ -40,4 +41,4 @@ function SearchBar(props: ISearchBarProps) {
     );
 }
 
-export default SearchBar;
+export default SearchField;
