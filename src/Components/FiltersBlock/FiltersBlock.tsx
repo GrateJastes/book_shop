@@ -1,29 +1,21 @@
-import './FiltersBlock.scss';
-import React, { FormEvent, FormEventHandler, useEffect, useState } from 'react';
-import { MultiSelectOption, SearchSample, SelectOption } from '../../Features/BooksLoader/types';
-import {
-    useLazyGetSuggestionsByAuthorQuery,
-    useLazyGetSuggestionsByNameQuery
-} from '../../Features/BooksLoader/BooksAPI';
+import { MultiSelectOption, SearchSample } from '../../Store/BooksLoader/types';
+import { FormEvent, useEffect, useState } from 'react';
 import { GenresField } from '../GenresField/GenresField';
-import { DateRange } from 'rsuite/DateRangePicker';
-import { DateRangePicker } from 'rsuite';
-import SearchField from '../SearchField/SearchField';
+import DatePicker from 'react-datepicker';
+import './FiltersBlock.scss';
 
 export interface FiltersBlockProps {
     onApply: (sample: SearchSample) => void;
 }
 
-export interface YearsRange {
-    yearFrom: number;
-    yearTo: number;
-}
-
 interface FilterFields {
-    name: SelectOption | null;
-    author: SelectOption | null;
+    name: string | null;
+    author: string | null;
     genres: Array<MultiSelectOption> | null;
-    yearsRange: YearsRange | null;
+    yearsRange: {
+        startDate: Date | null;
+        endDate: Date | null;
+    };
 }
 
 
@@ -32,20 +24,21 @@ export function FiltersBlock(props: FiltersBlockProps) {
         name: null,
         author: null,
         genres: null,
-        yearsRange: null,
+        yearsRange: {
+            startDate: null,
+            endDate: null,
+        },
     });
-
-    const [ fetchNameSuggestions, nameSuggestions ] = useLazyGetSuggestionsByNameQuery();
-    const [ fetchAuthorSuggestions, authorSuggestions ] = useLazyGetSuggestionsByAuthorQuery();
 
     const applyFilters = () => {
         let sample: SearchSample = {};
-        filterFields.name && (sample.name = filterFields.name.value);
-        filterFields.author && (sample.author = filterFields.author.value);
+        filterFields.name && (sample.name = filterFields.name);
+        filterFields.author && (sample.author = filterFields.author);
         filterFields.genres?.length && (sample.genreIds = filterFields.genres.map((genre) => genre.value));
         filterFields.yearsRange && (sample = {
             ...sample,
-            ...filterFields.yearsRange,
+            yearFrom: filterFields.yearsRange.startDate?.getFullYear(),
+            yearTo: filterFields.yearsRange.endDate?.getFullYear(),
         });
 
         props.onApply(sample);
@@ -60,55 +53,80 @@ export function FiltersBlock(props: FiltersBlockProps) {
         applyFilters();
     }, []);
 
-    const extractYearsRange = (range: DateRange) => setFilterFields({
-        ...filterFields,
-        yearsRange: {
-            yearFrom: parseInt(range[0].getFullYear().toString()),
-            yearTo: parseInt(range[1].getFullYear().toString()),
-        },
-    });
-
     return (
         <form onSubmit={onSubmit} className="filters-block">
             <h2 className="filters-block__header">Filters</h2>
             <div className="filters-block__filter-field">
                 <span className="filters-block__field-name">Название</span>
-                <SearchField
-                    suggestions={nameSuggestions.data}
-                    fetchSuggestions={fetchNameSuggestions}
-                    selectedOption={filterFields.name}
-                    onChange={(newOption: SelectOption) => setFilterFields({...filterFields, name: newOption})}
-                    fieldName={'Введите название'}
-                />
+                <input
+                    type="text"
+                    className="filters-block__text-input"
+                    onChange={(event) => setFilterFields({
+                        ...filterFields,
+                        name: event.target.value
+                    })}/>
             </div>
             <div className="filters-block__filter-field">
                 <span className="filters-block__field-name">Автор</span>
-                <SearchField
-                    suggestions={authorSuggestions.data}
-                    fetchSuggestions={fetchAuthorSuggestions}
-                    selectedOption={filterFields.author}
-                    onChange={(newOption: SelectOption) => setFilterFields({...filterFields, author: newOption})}
-                    fieldName={'Введите имя'}
-                />
+                <input
+                    type="text"
+                    className="filters-block__text-input"
+                    onChange={(event) => setFilterFields({
+                        ...filterFields,
+                        author: event.target.value
+                    })}/>
             </div>
             <div className="filters-block__filter-field">
                 <span className="filters-block__filed-name">Жанры</span>
                 <GenresField
                     onChange={(newOption) => setFilterFields({...filterFields, genres: newOption})}
                 />
-                <span className="filters-block__field-name">Жанры</span>
             </div>
             <div className="filters-block__filter-field">
                 <span className="filters-block__field-name">Годы написания</span>
-                <DateRangePicker className="filters-block__year-select" onOk={extractYearsRange}/>
+                <DatePicker
+                    className={"filters-block__date-picker"}
+                    showYearPicker
+                    selected={filterFields.yearsRange?.startDate}
+                    onChange={(date) => setFilterFields({
+                        ...filterFields,
+                        yearsRange: {
+                            ...filterFields.yearsRange,
+                            startDate: date
+                        },
+                    })}
+                    selectsStart
+                    startDate={filterFields.yearsRange?.startDate}
+                    endDate={filterFields.yearsRange?.endDate}
+                />
+                <DatePicker
+                    className={"filters-block__date-picker"}
+                    showYearPicker
+                    selected={filterFields.yearsRange?.endDate}
+                    onChange={(date) => setFilterFields({
+                        ...filterFields,
+                        yearsRange: {
+                            ...filterFields.yearsRange,
+                            endDate: date
+                        },
+                    })}
+                    selectsEnd
+                    startDate={filterFields.yearsRange?.startDate}
+                    endDate={filterFields.yearsRange?.endDate}
+                    minDate={filterFields.yearsRange?.startDate}
+                />
             </div>
             <input type="submit" className="filters-block__button" value="Apply"/>
             <button className="filters-block__button" onClick={() => setFilterFields({
                 name: null,
                 author: null,
                 genres: null,
-                yearsRange: null,
-            })}>Clear</button>
+                yearsRange: {
+                    startDate: null,
+                    endDate: null,
+                },
+            })}>Clear
+            </button>
         </form>
     );
 }

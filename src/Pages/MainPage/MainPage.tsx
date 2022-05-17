@@ -1,7 +1,7 @@
 import React from 'react';
-import { FiltersBlock } from '../FiltersBlock/FiltersBlock';
-import { BooksBlock } from '../BooksBlock/BooksBlock';
-import { useLazyGetFilteredBooksBySearchQuery } from '../../Features/BooksLoader/BooksAPI';
+import { FiltersBlock } from '../../Components/FiltersBlock/FiltersBlock';
+import { BooksBlock } from '../../Components/BooksBlock/BooksBlock';
+import { useLazyGetFilteredBooksBySearchQuery } from '../../Store/BooksLoader/BooksAPI';
 import './MainPage.scss';
 
 

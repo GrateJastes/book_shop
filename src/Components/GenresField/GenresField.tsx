@@ -1,6 +1,6 @@
-import { Genre, MultiSelectOption } from '../../Features/BooksLoader/types';
+import { Genre, MultiSelectOption } from '../../Store/BooksLoader/types';
 import Select, { MultiValue } from 'react-select';
-import { useGetGenresQuery } from '../../Features/BooksLoader/BooksAPI';
+import { useGetGenresQuery } from '../../Store/BooksLoader/BooksAPI';
 import './GenresField.scss';
 
 

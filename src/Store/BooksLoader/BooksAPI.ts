@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/dist/query/react';
-import { axiosBaseQuery } from '../utils';
+import { axiosBaseQuery } from '../../Features/utils';
 import { BookCreationModel, BookModel, BookUpdateModel, Genre, SearchSample, SelectOption } from './types';
 import cfg from '../../config';
 
@@ -77,7 +77,6 @@ export const booksAPI = createApi({
 });
 
 export const {
-    useGetAllBooksQuery,
     useGetGenresQuery,
     useLazyGetFilteredBooksBySearchQuery,
     useLazyGetSuggestionsByNameQuery,

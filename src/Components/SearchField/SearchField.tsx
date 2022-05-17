@@ -1,7 +1,7 @@
 import React from 'react';
 import Select, { SingleValue } from 'react-select';
 import cfg from '../../config';
-import { SelectOption } from '../../Features/BooksLoader/types';
+import { SelectOption } from '../../Store/BooksLoader/types';
 import './SearchField.scss'
 
 

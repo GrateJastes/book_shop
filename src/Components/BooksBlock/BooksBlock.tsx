@@ -1,6 +1,6 @@
 import { Book } from '../Book/Book';
 import React, { useEffect, useState } from 'react';
-import { BookModel } from '../../Features/BooksLoader/types';
+import { BookModel } from '../../Store/BooksLoader/types';
 import ReactPaginate from 'react-paginate';
 import cfg from '../../config';
 import './BooksBlock.scss';

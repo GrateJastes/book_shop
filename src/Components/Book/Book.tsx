@@ -1,4 +1,4 @@
-import { Genre } from '../../Features/BooksLoader/types';
+import { Genre } from '../../Store/BooksLoader/types';
 import { useState } from 'react';
 import { BookEditor } from '../BookEditor/BookEditor';
 import './Book.scss';

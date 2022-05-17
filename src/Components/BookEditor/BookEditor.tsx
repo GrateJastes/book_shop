@@ -1,14 +1,16 @@
+import 'react-datepicker/dist/react-datepicker.css';
 import { FormEvent, useState } from 'react';
-import { BookUpdateModel, MultiSelectOption } from '../../Features/BooksLoader/types';
+import { BookUpdateModel, MultiSelectOption } from '../../Store/BooksLoader/types';
 import {
     useLazyDeleteBookByIDQuery,
     useLazyPatchBookByIDQuery,
     useLazyPostNewBookQuery
-} from '../../Features/BooksLoader/BooksAPI';
+} from '../../Store/BooksLoader/BooksAPI';
 import { GenresField } from '../GenresField/GenresField';
 import { BookProps } from '../Book/Book';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import DatePicker from 'react-datepicker';
 
 
 export interface BookEditorProps {
@@ -18,36 +20,31 @@ export interface BookEditorProps {
     onUpdate: () => void;
 }
 
+interface EditorFields {
+    name: string | null;
+    author: string | null;
+    year: number | null;
+    description: string | null;
+    genres: Array<MultiSelectOption> | null;
+}
+
 
 export function BookEditor(props: BookEditorProps) {
-    const [ selectedName, setSelectedName ] = useState<string | null>(null);
-    const [ selectedAuthor, setSelectedAuthor ] = useState<string | null>(null);
-    const [ selectedYear, setSelectedYear ] = useState<number | null>(null);
-    const [ selectedDescription, setSelectedDescription ] = useState<string | null>(null);
-    const [ selectedGenres, setSelectedGenres ] = useState<Array<MultiSelectOption> | null>(null);
+    const [editorFields, setEditorFields] = useState<EditorFields>({
+        name: null,
+        author: null,
+        year: null,
+        description: null,
+        genres: null,
+    });
 
-    const [ bookCreationTrigger ] = useLazyPostNewBookQuery();
-    const [ bookPatchingTrigger ] = useLazyPatchBookByIDQuery();
-    const [ bookDeletionTrigger ] = useLazyDeleteBookByIDQuery();
+    const [bookCreationTrigger] = useLazyPostNewBookQuery();
+    const [bookPatchingTrigger] = useLazyPatchBookByIDQuery();
+    const [bookDeletionTrigger] = useLazyDeleteBookByIDQuery();
 
-    const inputIsCorrect = (): boolean => {
-        if (!selectedName) {
-            return false;
-        }
-        if (!selectedAuthor) {
-            return false;
-        }
-        if (!selectedYear) {
-            return false;
-        }
-        if (!selectedGenres) {
-            return false;
-        }
+    const inputIsCorrect = () => !!(editorFields.name && editorFields.author && editorFields.genres && editorFields.year);
 
-        return true;
-    }
-
-    const saveEditedBook = (ev: FormEvent<Element>) => {
+    const saveEditedBook = (ev: FormEvent) => {
         ev.preventDefault();
 
         if (!inputIsCorrect()) {
@@ -56,19 +53,20 @@ export function BookEditor(props: BookEditorProps) {
 
         if (props.isCreation) {
             bookCreationTrigger({
-                name: selectedName || '',
+                name: editorFields.name || '',
                 id: 0,
-                author: selectedAuthor || '',
-                year: selectedYear || 0,
-                genreIds: selectedGenres?.map((option) => option.value) || [],
-                description: selectedDescription || '',
+                author: editorFields.author || '',
+                year: editorFields.year || 0,
+                genreIds: editorFields.genres?.map((option) => option.value) || [],
+                description: editorFields.description || '',
             });
         } else {
             let bookPatchingSettings: BookUpdateModel = {id: props.book?.id || 0};
-            selectedName && (bookPatchingSettings.name = selectedName);
-            selectedDescription && (bookPatchingSettings.description = selectedDescription);
-            selectedYear && (bookPatchingSettings.year = selectedYear);
-            selectedAuthor && (bookPatchingSettings.author = selectedAuthor);
+
+            editorFields.name && (bookPatchingSettings.name = editorFields.name);
+            editorFields.author && (bookPatchingSettings.author = editorFields.author);
+            editorFields.year && (bookPatchingSettings.year = editorFields.year);
+            editorFields.description && (bookPatchingSettings.description = editorFields.description);
 
             bookPatchingTrigger(bookPatchingSettings);
         }
@@ -85,37 +83,37 @@ export function BookEditor(props: BookEditorProps) {
         <form onSubmit={saveEditedBook} className="book book_editing">
             <span>Title</span>
             <input
-                onChange={(ev) => setSelectedName(ev.target.value)}
-                defaultValue={props?.book?.name}
+                onChange={(ev) => setEditorFields({...editorFields, name: ev.target.value})}
+                defaultValue={props.book?.name}
                 placeholder="Title"
                 type="text"
                 className="book__editor-input"
             />
             <span>Author</span>
             <input
-                onChange={(ev) => setSelectedAuthor(ev.target.value)}
-                defaultValue={props?.book?.author}
+                onChange={(ev) => setEditorFields({...editorFields, author: ev.target.value})}
+                defaultValue={props.book?.author}
                 placeholder="Author"
                 type="text"
                 className="book__editor-input"
             />
             <span>Year</span>
-            <input
-                onChange={(ev) => setSelectedYear(parseInt(ev.target.value))}
-                defaultValue={props?.book?.year || ''}
-                placeholder="Year"
-                type="text"
-                className="book__editor-input"
+            <DatePicker
+                onChange={(date: Date) => setEditorFields({...editorFields, year: date?.getFullYear() || null})}
+                showYearPicker
+                selected={new Date(`${props.book?.year || new Date(Date.now())}`)}
+                dateFormat={'yyyy'}
+                className={'book__editor-input'}
             />
             <span>Genres</span>
             <GenresField
-                onChange={(newOption)=> setSelectedGenres(newOption)}
+                onChange={(newOption) => setEditorFields({...editorFields, genres: newOption})}
                 selectedGenres={props.book?.genres.map((genre) => genre.id) || []}
             />
             <span>Description</span>
             <input
-                onChange={(ev) => setSelectedDescription(ev.target.value)}
-                defaultValue={props?.book?.description}
+                onChange={(ev) => setEditorFields({...editorFields, author: ev.target.value})}
+                defaultValue={props.book?.description}
                 placeholder="Description will be here"
                 type="text"
                 className="book__editor-input"
@@ -128,9 +126,8 @@ export function BookEditor(props: BookEditorProps) {
                 }
             </div>
             <button onClick={props.onCancel} className="book__edit-button">
-                <FontAwesomeIcon icon={faXmark} />
+                <FontAwesomeIcon icon={faXmark}/>
             </button>
         </form>
     );
 }
-
