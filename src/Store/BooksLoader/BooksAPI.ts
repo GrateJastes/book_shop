@@ -12,11 +12,6 @@ export const booksAPI = createApi({
                 url: `${cfg.backendURL}/genre`,
             }),
         }),
-        getAllBooks: builder.query<Array<BookModel>, void>({
-            query: () => ({
-                url: `${cfg.backendURL}/books`,
-            }),
-        }),
         getFilteredBooksBySearch: builder.query<Array<BookModel>, SearchSample>({
             query: (sample: SearchSample) => ({
                 url: `${cfg.backendURL}/books`,
@@ -24,34 +19,6 @@ export const booksAPI = createApi({
                     ...sample,
                 },
             }),
-        }),
-        getSuggestionsByName: builder.query<Array<SelectOption>, string>({
-            query: (sample: string) => ({
-                url: `${cfg.backendURL}/books`,
-                params: {
-                    name: sample,
-                },
-            }),
-            transformResponse: (res: Array<BookModel>) => [...new Set(res
-                .map((book) => ({
-                    value: book.name,
-                    label: book.name,
-                })))
-            ],
-        }),
-        getSuggestionsByAuthor: builder.query<Array<SelectOption>, string>({
-            query: (sample: string) => ({
-                url: `${cfg.backendURL}/books`,
-                params: {
-                    author: sample,
-                },
-            }),
-            transformResponse: (res: Array<BookModel>) => [...new Set(res
-                .map((book) => ({
-                    value: book.author,
-                    label: book.author,
-                })))
-            ],
         }),
         postNewBook: builder.query<string, BookCreationModel>({
             query: (bookInfo: BookCreationModel) => ({
@@ -79,8 +46,6 @@ export const booksAPI = createApi({
 export const {
     useGetGenresQuery,
     useLazyGetFilteredBooksBySearchQuery,
-    useLazyGetSuggestionsByNameQuery,
-    useLazyGetSuggestionsByAuthorQuery,
     useLazyPostNewBookQuery,
     useLazyDeleteBookByIDQuery,
     useLazyPatchBookByIDQuery,

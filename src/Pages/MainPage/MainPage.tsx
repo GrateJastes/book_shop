@@ -1,12 +1,13 @@
 import React from 'react';
 import { FiltersBlock } from '../../Components/FiltersBlock/FiltersBlock';
 import { BooksBlock } from '../../Components/BooksBlock/BooksBlock';
-import { useLazyGetFilteredBooksBySearchQuery } from '../../Store/BooksLoader/BooksAPI';
+import { useGetGenresQuery, useLazyGetFilteredBooksBySearchQuery } from '../../Store/BooksLoader/BooksAPI';
 import './MainPage.scss';
 
 
 function MainPage() {
     const [ fetchBooks, books ] = useLazyGetFilteredBooksBySearchQuery();
+    const {data: genres} = useGetGenresQuery();
 
     return (
         <div className="page">

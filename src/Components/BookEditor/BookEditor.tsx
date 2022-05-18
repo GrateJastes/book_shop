@@ -76,7 +76,7 @@ export function BookEditor(props: BookEditorProps) {
 
     const deleteBook = () => {
         props.book && bookDeletionTrigger(props.book.id);
-        props.onUpdate(); //TODO: how to check and update automatic?
+        props.onUpdate();
     }
 
     return (
