@@ -1,6 +1,6 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import { FormEvent, useState } from 'react';
-import { BookUpdateModel, MultiSelectOption } from '../../Store/BooksLoader/types';
+import { MultiSelectOption } from '../../Store/BooksLoader/types';
 import {
     useDeleteBookByIDMutation,
     usePatchBookByIDMutation,
@@ -50,25 +50,23 @@ export function BookEditor(props: BookEditorProps) {
             return;
         }
 
-        if (props.isCreation) {
+        props.isCreation ?
             bookCreationTrigger({
-                name: editorFields.name || '',
                 id: 0,
-                author: editorFields.author || '',
-                year: editorFields.year || 0,
-                genreIds: editorFields.genres?.map((option) => option.value) || [],
+                name: editorFields.name,
+                author: editorFields.author,
+                year: editorFields.year,
                 description: editorFields.description || '',
+                genreIds: editorFields.genres?.map((option) => option.value) || null,
+            })
+            : bookPatchingTrigger({
+                id: props.book?.id || 0,
+                name: editorFields.name,
+                author: editorFields.author,
+                year: editorFields.year,
+                description: editorFields.description,
+                genreIds: editorFields.genres?.map((option) => option.value) || null,
             });
-        } else {
-            let bookPatchingSettings: BookUpdateModel = {id: props.book?.id || 0};
-
-            editorFields.name && (bookPatchingSettings.name = editorFields.name);
-            editorFields.author && (bookPatchingSettings.author = editorFields.author);
-            editorFields.year && (bookPatchingSettings.year = editorFields.year);
-            editorFields.description && (bookPatchingSettings.description = editorFields.description);
-
-            bookPatchingTrigger(bookPatchingSettings);
-        }
     }
 
     const deleteBook = () => {
@@ -80,7 +78,9 @@ export function BookEditor(props: BookEditorProps) {
         <form onSubmit={saveEditedBook} className="book book_editing">
             <span>Title</span>
             <input
-                onChange={(ev) => setEditorFields({...editorFields, name: ev.target.value})}
+                onChange={(ev) => setEditorFields((prevState) => {
+                    return {...prevState, name: ev.target.value};
+                })}
                 defaultValue={props.book?.name}
                 placeholder="Title"
                 type="text"
@@ -88,7 +88,9 @@ export function BookEditor(props: BookEditorProps) {
             />
             <span>Author</span>
             <input
-                onChange={(ev) => setEditorFields({...editorFields, author: ev.target.value})}
+                onChange={(ev) => setEditorFields((prevState) => {
+                    return {...prevState, author: ev.target.value};
+                })}
                 defaultValue={props.book?.author}
                 placeholder="Author"
                 type="text"
@@ -96,7 +98,9 @@ export function BookEditor(props: BookEditorProps) {
             />
             <span>Year</span>
             <DatePicker
-                onChange={(date: Date) => setEditorFields({...editorFields, year: date?.getFullYear() || null})}
+                onChange={(date: Date) => setEditorFields((prevState) => {
+                    return {...prevState, year: date?.getFullYear() || null};
+                })}
                 showYearPicker
                 selected={new Date(`${props.book?.year || new Date(Date.now())}`)}
                 dateFormat={'yyyy'}
@@ -104,12 +108,16 @@ export function BookEditor(props: BookEditorProps) {
             />
             <span>Genres</span>
             <GenresField
-                onChange={(newOption) => setEditorFields({...editorFields, genres: newOption})}
+                onChange={(newOption) => setEditorFields((prevState) => {
+                    return {...prevState, genres: newOption};
+                })}
                 selectedGenres={props.book?.genres.map((genre) => genre.id) || []}
             />
             <span>Description</span>
             <input
-                onChange={(ev) => setEditorFields({...editorFields, author: ev.target.value})}
+                onChange={(ev) => setEditorFields((prevState) => {
+                    return {...prevState, description: ev.target.value};
+                })}
                 defaultValue={props.book?.description}
                 placeholder="Description will be here"
                 type="text"

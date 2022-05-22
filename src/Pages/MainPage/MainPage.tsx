@@ -13,7 +13,7 @@ function MainPage() {
             <h1 className="page__app-name">Bookshelf</h1>
             <div className="page__main-container">
                 <FiltersBlock onApply={(sample) => fetchBooks(sample)}/>
-                <BooksBlock books={books.data}/>
+                <BooksBlock books={books.data || []}/>
             </div>
         </div>
     );

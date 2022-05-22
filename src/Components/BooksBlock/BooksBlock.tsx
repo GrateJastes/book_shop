@@ -7,7 +7,7 @@ import './BooksBlock.scss';
 
 
 export interface BooksBlockProps {
-    books?: Array<BookModel>;
+    books: Array<BookModel>;
 }
 
 export function BooksBlock(props: BooksBlockProps) {
@@ -17,14 +17,13 @@ export function BooksBlock(props: BooksBlockProps) {
     const booksCount = props.books?.length || 0;
     const pageCount = Math.ceil((booksCount) / cfg.booksPerPage);
 
-
     useEffect(() => {
         const endOffset = booksOffset + cfg.booksPerPage;
-        setCurrentBooks(props.books?.slice(booksOffset, endOffset) || []);
+        setCurrentBooks(props.books.slice(booksOffset, endOffset) || []);
     }, [props.books]);
 
     const handlePageClick = (event: {selected: number}) => {
-        const newOffset = (event.selected * cfg.booksPerPage) % (props.books?.length || 1);
+        const newOffset = (event.selected * cfg.booksPerPage) % (props.books.length || 1);
         setBooksOffset(newOffset);
     };
 

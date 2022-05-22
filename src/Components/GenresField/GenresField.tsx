@@ -9,30 +9,22 @@ export interface GenreSelectProps {
     selectedGenres?: Array<number>;
 }
 
-export function GenresField(props: GenreSelectProps) {
+export function GenresField({ onChange, selectedGenres }: GenreSelectProps) {
     const { fullGenreOptions } = useGetGenresQuery(undefined, {
         selectFromResult: ({ data }) => ({
             fullGenreOptions: data?.map((genre: Genre) => ({ value: genre.id, label: genre.name })) || [],
         }),
     });
 
-    const updateSelectedOption = (newValue: MultiValue<MultiSelectOption>) => {
-        if (!newValue) {
-            props.onChange([ ...newValue ]);
-        }
-    };
-
     const selectedGenreOptions = fullGenreOptions?.reduce((acc: Array<MultiSelectOption>, curr: MultiSelectOption) => {
-        if (props.selectedGenres?.includes(curr.value)) {
+        if (selectedGenres?.includes(curr.value)) {
             acc.push(curr);
         }
 
         return acc;
     }, new Array<MultiSelectOption>()) || [];
 
-    // useState with callback not new state
-    // typescript object fields string suggestions
-    // dateFormat
+    // typescript object fields string suggestions ?? Забыл, где это нужно было сделать)
     return (
         <Select
             defaultValue={selectedGenreOptions}
@@ -40,7 +32,9 @@ export function GenresField(props: GenreSelectProps) {
             name={'genres'}
             options={fullGenreOptions}
             className={'genres-field'}
-            onChange={(val: MultiValue<MultiSelectOption>) => updateSelectedOption(val)}
+            onChange={(val: MultiValue<MultiSelectOption>) => {
+                if (val) onChange([...val]);
+            }}
             isMulti
         />
     );

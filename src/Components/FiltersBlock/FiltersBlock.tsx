@@ -12,58 +12,49 @@ interface FilterFields {
     name: string | null;
     author: string | null;
     genres: Array<MultiSelectOption> | null;
-    yearsRange: {
-        startDate: Date | null;
-        endDate: Date | null;
-    };
+    startDate: Date | null;
+    endDate: Date | null;
+}
+
+const initialFilterFields = {
+    name: null,
+    author: null,
+    genres: null,
+    startDate: null,
+    endDate: null,
 }
 
 
-export function FiltersBlock(props: FiltersBlockProps) {
-    const [filterFields, setFilterFields] = useState<FilterFields>({
-        name: null,
-        author: null,
-        genres: null,
-        yearsRange: {
-            startDate: null,
-            endDate: null,
-        },
+export function FiltersBlock({onApply}: FiltersBlockProps) {
+    const [filterFields, setFilterFields] = useState<FilterFields>(initialFilterFields);
+    const applyFilters = () => onApply({
+        name: filterFields.name || null,
+        author: filterFields.author || null,
+        genreIds: filterFields.genres?.map((genre) => genre.value) || null,
+        yearFrom: filterFields.startDate?.getFullYear() || null,
+        yearTo: filterFields.endDate?.getFullYear() || null,
+        description: null,
     });
-// no-yearsrange + null ne onmechaetsya + initial_lalala
-    const applyFilters = () => {
-        let sample: SearchSample = {};
-        filterFields.name && (sample.name = filterFields.name);
-        filterFields.author && (sample.author = filterFields.author);
-        filterFields.genres?.length && (sample.genreIds = filterFields.genres.map((genre) => genre.value));
-        filterFields.yearsRange && (sample = {
-            ...sample,
-            yearFrom: filterFields.yearsRange.startDate?.getFullYear(),
-            yearTo: filterFields.yearsRange.endDate?.getFullYear(),
-        });
-
-        props.onApply(sample);
-    };
-
-    const onSubmit = (ev: FormEvent) => {
-        ev.preventDefault();
-        applyFilters();
-    }
 
     useEffect(() => {
         applyFilters();
     }, []);
 
     return (
-        <form onSubmit={onSubmit} className="filters-block">
+        <form
+            className="filters-block"
+            onSubmit={(ev: FormEvent) => {
+                ev.preventDefault();
+                applyFilters();
+            }}>
             <h2 className="filters-block__header">Filters</h2>
             <div className="filters-block__filter-field">
                 <span className="filters-block__field-name">Название</span>
                 <input
                     type="text"
                     className="filters-block__text-input"
-                    onChange={(event) => setFilterFields({
-                        ...filterFields,
-                        name: event.target.value
+                    onChange={(event) => setFilterFields((prevState) => {
+                        return {...prevState, name: event.target.value};
                     })}/>
             </div>
             <div className="filters-block__filter-field">
@@ -71,61 +62,46 @@ export function FiltersBlock(props: FiltersBlockProps) {
                 <input
                     type="text"
                     className="filters-block__text-input"
-                    onChange={(event) => setFilterFields({
-                        ...filterFields,
-                        author: event.target.value
+                    onChange={(event) => setFilterFields((prevState) => {
+                        return {...prevState, author: event.target.value};
                     })}/>
             </div>
             <div className="filters-block__filter-field">
                 <span className="filters-block__filed-name">Жанры</span>
                 <GenresField
-                    onChange={(newOption) => setFilterFields({...filterFields, genres: newOption})}
+                    onChange={(newOption) => setFilterFields((prevState) => {
+                        return {...prevState, genres: newOption};
+                    })}
                 />
             </div>
             <div className="filters-block__filter-field">
                 <span className="filters-block__field-name">Годы написания</span>
                 <DatePicker
-                    className={"filters-block__date-picker"}
+                    className={'filters-block__date-picker'}
                     showYearPicker
-                    selected={filterFields.yearsRange?.startDate}
-                    onChange={(date) => setFilterFields({
-                        ...filterFields,
-                        yearsRange: {
-                            ...filterFields.yearsRange,
-                            startDate: date
-                        },
+                    selected={filterFields.startDate}
+                    onChange={(date) => setFilterFields((prevState) => {
+                        return {...prevState, startDate: date};
                     })}
                     selectsStart
-                    startDate={filterFields.yearsRange?.startDate}
-                    endDate={filterFields.yearsRange?.endDate}
+                    startDate={filterFields.startDate}
+                    endDate={filterFields.endDate}
                 />
                 <DatePicker
-                    className={"filters-block__date-picker"}
+                    className={'filters-block__date-picker'}
                     showYearPicker
-                    selected={filterFields.yearsRange?.endDate}
-                    onChange={(date) => setFilterFields({
-                        ...filterFields,
-                        yearsRange: {
-                            ...filterFields.yearsRange,
-                            endDate: date
-                        },
+                    selected={filterFields.endDate}
+                    onChange={(date) => setFilterFields((prevState) => {
+                        return {...prevState, endDate: date};
                     })}
                     selectsEnd
-                    startDate={filterFields.yearsRange?.startDate}
-                    endDate={filterFields.yearsRange?.endDate}
-                    minDate={filterFields.yearsRange?.startDate}
+                    startDate={filterFields.startDate}
+                    endDate={filterFields.endDate}
+                    minDate={filterFields.startDate}
                 />
             </div>
             <input type="submit" className="filters-block__button" value="Apply"/>
-            <button className="filters-block__button" onClick={() => setFilterFields({
-                name: null,
-                author: null,
-                genres: null,
-                yearsRange: {
-                    startDate: null,
-                    endDate: null,
-                },
-            })}>Clear
+            <button className="filters-block__button" onClick={() => setFilterFields(initialFilterFields)}>Clear
             </button>
         </form>
     );

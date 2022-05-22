@@ -5,11 +5,11 @@ export interface Genre {
 
 export interface BookUpdateModel {
     id: number;
-    name?: string;
-    author?: string;
-    year?: number;
-    genreIds?: Array<number>;
-    description?: string;
+    name?: string | null;
+    author?: string | null;
+    year?: number | null;
+    genreIds?: Array<number> | null;
+    description?: string | null;
 }
 
 export interface BookModel {
@@ -23,16 +23,11 @@ export interface BookModel {
 
 export interface BookCreationModel {
     id: number;
-    name: string;
-    author: string;
-    year: number;
-    genreIds: Array<number>;
-    description: string;
-}
-
-export interface SelectOption {
-    value: string;
-    label: string;
+    name: string | null;
+    author: string | null;
+    year: number | null;
+    genreIds: Array<number> | null;
+    description: string | null;
 }
 
 export interface MultiSelectOption {
@@ -41,10 +36,10 @@ export interface MultiSelectOption {
 }
 
 export interface SearchSample {
-    name?: string;
-    author?: string;
-    yearFrom?: number;
-    yearTo?: number;
-    genreIds?: Array<number>;
-    description?: string;
+    name: string | null;
+    author: string | null;
+    yearFrom: number | null;
+    yearTo: number | null;
+    genreIds: Array<number> | null;
+    description: string | null;
 }
