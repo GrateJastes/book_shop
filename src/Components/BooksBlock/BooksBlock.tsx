@@ -8,7 +8,6 @@ import './BooksBlock.scss';
 
 export interface BooksBlockProps {
     books?: Array<BookModel>;
-    onUpdate: () => void;
 }
 
 export function BooksBlock(props: BooksBlockProps) {
@@ -48,14 +47,13 @@ export function BooksBlock(props: BooksBlockProps) {
                 pageCount={pageCount}
                 onPageChange={handlePageClick}
             />
-            <BooksList books={currentBooks || []} onUpdate={props.onUpdate}/>
+            <BooksList books={currentBooks || []}/>
         </div>
     );
 }
 
 interface BooksListProps {
     books: Array<BookModel>;
-    onUpdate: () => void;
 }
 
 
@@ -73,7 +71,6 @@ function BooksList(props: BooksListProps) {
                 genres={[]}
                 year={0}
                 name={''}
-                onUpdate={() => {}}
             />
             {props.books?.map((book, idx) => <Book
                 id={book.id}
@@ -83,7 +80,6 @@ function BooksList(props: BooksListProps) {
                 genres={book.genres}
                 year={book.year}
                 name={book.name}
-                onUpdate={props.onUpdate}
             />)}
         </div>
     );

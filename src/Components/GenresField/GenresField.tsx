@@ -10,39 +10,37 @@ export interface GenreSelectProps {
 }
 
 export function GenresField(props: GenreSelectProps) {
-    const { data: genres } = useGetGenresQuery();
+    const { fullGenreOptions } = useGetGenresQuery(undefined, {
+        selectFromResult: ({ data }) => ({
+            fullGenreOptions: data?.map((genre: Genre) => ({ value: genre.id, label: genre.name })) || [],
+        }),
+    });
 
     const updateSelectedOption = (newValue: MultiValue<MultiSelectOption>) => {
         if (!newValue) {
-            return;
+            props.onChange([ ...newValue ]);
         }
-        props.onChange([ ...newValue ]);
     };
 
-    const selectedGenreOptions = genres?.reduce((acc: Array<{value: number, label: string}>, curr: Genre) => {
-        if (props.selectedGenres?.includes(curr.id)) {
-            acc.push({value: curr.id, label: curr.name})
+    const selectedGenreOptions = fullGenreOptions?.reduce((acc: Array<MultiSelectOption>, curr: MultiSelectOption) => {
+        if (props.selectedGenres?.includes(curr.value)) {
+            acc.push(curr);
         }
 
         return acc;
     }, new Array<MultiSelectOption>()) || [];
 
-    let params = {
-        placeholder: 'Жанры',
-        name: 'genres',
-        options: genres?.map((genre: Genre) => ({ value: genre.id, label: genre.name })),
-        className: 'genres-field',
-        onChange: (val: MultiValue<MultiSelectOption>) => updateSelectedOption(val),
-    };
-
-    if (selectedGenreOptions?.length !== 0) {
-        // @ts-ignore
-        params.defaultValue = selectedGenreOptions;
-    }
-
+    // useState with callback not new state
+    // typescript object fields string suggestions
+    // dateFormat
     return (
         <Select
-            {...params}
+            defaultValue={selectedGenreOptions}
+            placeholder={'Жанры'}
+            name={'genres'}
+            options={fullGenreOptions}
+            className={'genres-field'}
+            onChange={(val: MultiValue<MultiSelectOption>) => updateSelectedOption(val)}
             isMulti
         />
     );

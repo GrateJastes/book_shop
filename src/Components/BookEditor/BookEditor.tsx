@@ -2,9 +2,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FormEvent, useState } from 'react';
 import { BookUpdateModel, MultiSelectOption } from '../../Store/BooksLoader/types';
 import {
-    useLazyDeleteBookByIDQuery,
-    useLazyPatchBookByIDQuery,
-    useLazyPostNewBookQuery
+    useDeleteBookByIDMutation,
+    usePatchBookByIDMutation,
+    usePostNewBookMutation
 } from '../../Store/BooksLoader/BooksAPI';
 import { GenresField } from '../GenresField/GenresField';
 import { BookProps } from '../Book/Book';
@@ -17,7 +17,6 @@ export interface BookEditorProps {
     book?: BookProps;
     isCreation: boolean;
     onCancel: () => void;
-    onUpdate: () => void;
 }
 
 interface EditorFields {
@@ -38,9 +37,9 @@ export function BookEditor(props: BookEditorProps) {
         genres: null,
     });
 
-    const [bookCreationTrigger] = useLazyPostNewBookQuery();
-    const [bookPatchingTrigger] = useLazyPatchBookByIDQuery();
-    const [bookDeletionTrigger] = useLazyDeleteBookByIDQuery();
+    const [bookCreationTrigger] = usePostNewBookMutation();
+    const [bookPatchingTrigger] = usePatchBookByIDMutation();
+    const [bookDeletionTrigger] = useDeleteBookByIDMutation();
 
     const inputIsCorrect = () => !!(editorFields.name && editorFields.author && editorFields.genres && editorFields.year);
 
@@ -70,13 +69,11 @@ export function BookEditor(props: BookEditorProps) {
 
             bookPatchingTrigger(bookPatchingSettings);
         }
-
-        props.onUpdate();
     }
 
     const deleteBook = () => {
         props.book && bookDeletionTrigger(props.book.id);
-        props.onUpdate();
+        props.onCancel();
     }
 
     return (

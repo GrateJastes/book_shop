@@ -29,7 +29,7 @@ export function FiltersBlock(props: FiltersBlockProps) {
             endDate: null,
         },
     });
-
+// no-yearsrange + null ne onmechaetsya + initial_lalala
     const applyFilters = () => {
         let sample: SearchSample = {};
         filterFields.name && (sample.name = filterFields.name);

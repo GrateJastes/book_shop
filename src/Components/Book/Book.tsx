@@ -13,8 +13,6 @@ export interface BookProps {
     year: number;
     description?: string;
     genres: Array<Genre>
-
-    onUpdate: () => void;
 }
 
 
@@ -34,7 +32,6 @@ export function Book(props: BookProps) {
     if (isEditing) {
         return (
             <BookEditor
-                onUpdate={props.onUpdate}
                 book={props}
                 onCancel={() => setEditing(false)}
                 isCreation={props.isCreator}
