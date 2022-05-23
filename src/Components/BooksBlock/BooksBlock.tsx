@@ -20,9 +20,9 @@ export function BooksBlock(props: BooksBlockProps) {
     useEffect(() => {
         const endOffset = booksOffset + cfg.booksPerPage;
         setCurrentBooks(props.books.slice(booksOffset, endOffset) || []);
-    }, [props.books]);
+    }, [props.books, booksOffset]);
 
-    const handlePageClick = (event: {selected: number}) => {
+    const handlePageClick = (event: { selected: number }) => {
         const newOffset = (event.selected * cfg.booksPerPage) % (props.books.length || 1);
         setBooksOffset(newOffset);
     };
@@ -30,19 +30,19 @@ export function BooksBlock(props: BooksBlockProps) {
     return (
         <div className="books-block">
             <ReactPaginate
-                containerClassName="pagination"
-                activeClassName="active"
-                previousLabel="Previous"
-                nextLabel="Next"
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
+                containerClassName="paginator"
+                activeClassName="paginator__page-item_active"
+                previousLabel="Назад"
+                nextLabel="Далее"
+                pageClassName="paginator__page-item"
+                pageLinkClassName="paginator__page-link"
+                previousClassName="paginator__page-item"
+                previousLinkClassName="paginator__page-link paginator__page-link_nav"
+                nextLinkClassName="paginator__page-link paginator__page-link_nav"
+                nextClassName="paginator__page-item"
                 breakLabel="..."
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
+                breakClassName="paginator__page-item"
+                breakLinkClassName="paginator__page-link"
                 pageCount={pageCount}
                 onPageChange={handlePageClick}
             />
@@ -62,7 +62,7 @@ function BooksList(props: BooksListProps) {
     }
 
     return (
-        <div  className="books-block__list">
+        <div className="books-block__list">
             <Book
                 id={0}
                 isCreator={true}

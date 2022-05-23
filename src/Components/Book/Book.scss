@@ -13,6 +13,10 @@
   margin-bottom: 15px;
   padding: 20px;
 
+  &__description-field {
+    min-height: 60px;
+  }
+
   &_editing {
     flex-direction: column;
     align-items: flex-start;
@@ -27,12 +31,22 @@
 
     margin-top: 15px;
   }
+  &__editor-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
 
   &__editor-input {
     color: black;
 
     margin-top: 5px;
-    margin-bottom: 5px;
+
+    height: 25px;
+    font-size: 16px;
   }
 
   &__main-info {
@@ -78,6 +92,10 @@
     top: 5px;
     right: 5px;
 
+    font-size: 16px;
+
+    cursor: pointer;
+
     outline: none;
     border: none;
   }
@@ -99,5 +117,6 @@
     background: transparent;
 
     font-size: x-large;
+    cursor: pointer;
   }
 }

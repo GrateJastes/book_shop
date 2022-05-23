@@ -2,6 +2,7 @@ import { Genre, MultiSelectOption } from '../../Store/BooksLoader/types';
 import Select, { MultiValue } from 'react-select';
 import { useGetGenresQuery } from '../../Store/BooksLoader/BooksAPI';
 import './GenresField.scss';
+import { css } from '@emotion/css';
 
 
 export interface GenreSelectProps {
@@ -24,6 +25,15 @@ export function GenresField({ onChange, selectedGenres }: GenreSelectProps) {
         return acc;
     }, new Array<MultiSelectOption>()) || [];
 
+    const customStyles = {
+        control: (provided: any, state: any) => ({
+            ...provided,
+            borderRadius: '2px',
+            borderColor: 'black',
+            boxShadow: '',
+        }),
+    };
+
     // typescript object fields string suggestions ?? Забыл, где это нужно было сделать)
     return (
         <Select
@@ -36,6 +46,7 @@ export function GenresField({ onChange, selectedGenres }: GenreSelectProps) {
                 if (val) onChange([...val]);
             }}
             isMulti
+            styles={customStyles}
         />
     );
 }

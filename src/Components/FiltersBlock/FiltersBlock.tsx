@@ -47,27 +47,28 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
                 ev.preventDefault();
                 applyFilters();
             }}>
-            <h2 className="filters-block__header">Filters</h2>
-            <div className="filters-block__filter-field">
-                <span className="filters-block__field-name">Название</span>
-                <input
-                    type="text"
-                    className="filters-block__text-input"
-                    onChange={(event) => setFilterFields((prevState) => {
-                        return {...prevState, name: event.target.value};
-                    })}/>
+            <div className="filters-block__main-info">
+                <div className="filters-block__filter-field">
+                    <span className="filters-block__field-name">Название</span>
+                    <input
+                        type="text"
+                        className="filters-block__text-input"
+                        onChange={(event) => setFilterFields((prevState) => {
+                            return {...prevState, name: event.target.value};
+                        })}/>
+                </div>
+                <div className="filters-block__filter-field">
+                    <span className="filters-block__field-name">Автор</span>
+                    <input
+                        type="text"
+                        className="filters-block__text-input"
+                        onChange={(event) => setFilterFields((prevState) => {
+                            return {...prevState, author: event.target.value};
+                        })}/>
+                </div>
             </div>
             <div className="filters-block__filter-field">
-                <span className="filters-block__field-name">Автор</span>
-                <input
-                    type="text"
-                    className="filters-block__text-input"
-                    onChange={(event) => setFilterFields((prevState) => {
-                        return {...prevState, author: event.target.value};
-                    })}/>
-            </div>
-            <div className="filters-block__filter-field">
-                <span className="filters-block__filed-name">Жанры</span>
+                <span className="filters-block__field-name">Жанры</span>
                 <GenresField
                     onChange={(newOption) => setFilterFields((prevState) => {
                         return {...prevState, genres: newOption};
@@ -100,9 +101,11 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
                     minDate={filterFields.startDate}
                 />
             </div>
-            <input type="submit" className="filters-block__button" value="Apply"/>
-            <button className="filters-block__button" onClick={() => setFilterFields(initialFilterFields)}>Clear
-            </button>
+            <div className="filters-block__control-buttons">
+                <input type="submit" className="filters-block__button" value="Найти"/>
+                <button className="filters-block__button" onClick={() => setFilterFields(initialFilterFields)}>Очистить
+                </button>
+            </div>
         </form>
     );
 }

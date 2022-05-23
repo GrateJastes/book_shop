@@ -10,7 +10,7 @@ function MainPage() {
 
     return (
         <div className="page">
-            <h1 className="page__app-name">Bookshelf</h1>
+            <h1 className="page__app-name">Книжная полка</h1>
             <div className="page__main-container">
                 <FiltersBlock onApply={(sample) => fetchBooks(sample)}/>
                 <BooksBlock books={books.data || []}/>

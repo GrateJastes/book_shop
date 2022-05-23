@@ -18,3 +18,43 @@
     margin-top: 50px;
   }
 }
+
+.paginator {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+
+  &__page-item {
+    color: black;
+
+    cursor: pointer;
+
+    &_active {
+      background-color: #6a6666;
+      border-color: #6a6666;
+
+      color: white
+    }
+  }
+
+
+  &__page-link {
+    padding: .375rem .75rem;
+    display: flex;
+
+    text-decoration: none;
+
+    &_nav {
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: #6a6666;
+    }
+
+    &:hover {
+      color: white;
+      background-color: #6a6666;
+    }
+  }
+}

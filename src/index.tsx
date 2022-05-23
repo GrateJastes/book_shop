@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import "rsuite/dist/rsuite.min.css";
 
 import './Assets/Styles/Index.css';
 import App from './Components/App/App';
