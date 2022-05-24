@@ -84,6 +84,7 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
                         selected={filterFields.startDate}
                         onChange={onDateChange('startDate')}
                         selectsStart
+                        dateFormat={'yyyy'}
                         startDate={filterFields.startDate}
                         endDate={filterFields.endDate}
                     />
@@ -93,6 +94,7 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
                         selected={filterFields.endDate}
                         onChange={onDateChange('endDate')}
                         selectsEnd
+                        dateFormat={'yyyy'}
                         startDate={filterFields.startDate}
                         endDate={filterFields.endDate}
                         minDate={filterFields.startDate}

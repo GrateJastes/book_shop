@@ -2,75 +2,33 @@
   position: relative;
 
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 
-  width: 100%;
 
-  border: 1px solid gray;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  width: 250px;
+  height: 300px;
+
   padding: 20px;
+  margin: 20px;
 
-  &__description-field {
-    min-height: 60px;
+  box-shadow: 2px -2px 5px #00808024;
+  border: none;
+
+  background-color: white;
+
+  &__field-value {
+    max-width: 200px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   &_editing {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  &__editor-actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    width: 220px;
-
-    margin-top: 15px;
-  }
-  &__editor-field {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    margin-top: 15px;
-    margin-bottom: 5px;
-  }
-
-  &__editor-input {
-    color: black;
-
-    margin-top: 5px;
-
-    height: 25px;
-    font-size: 16px;
-  }
-
-  &__main-info {
-
-  }
-
-  &__title {
-    font-weight: bold;
-  }
-
-  &__written-by {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
-    font-size: smaller;
-  }
-
-  &__author {
-  }
-
-  &__year {
-    margin-left: 2px;
   }
 
   &__genres {
@@ -87,17 +45,44 @@
     margin: 1px;
   }
 
-  &__edit-button {
+  &__buttons {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 10px;
+    right: 10px;
 
-    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
     cursor: pointer;
 
+    width: 20px;
+    height: 20px;
+
+    margin: 2px;
+
+    font-size: small;
+
     outline: none;
     border: none;
+    border-radius: 50%;
+  }
+
+
+  &__edit-button {
+    right: 35px;
+  }
+
+  &__delete-button {
+    right: 10px;
   }
 }
 

@@ -10,20 +10,20 @@ export interface BooksBlockProps {
     books: Array<BookModel>;
 }
 
-export function BooksBlock(props: BooksBlockProps) {
+export function BooksBlock({books}: BooksBlockProps) {
     const [currentBooks, setCurrentBooks] = useState<Array<BookModel>>();
     const [booksOffset, setBooksOffset] = useState(0);
 
-    const booksCount = props.books?.length || 0;
+    const booksCount = books?.length || 0;
     const pageCount = Math.ceil((booksCount) / cfg.booksPerPage);
 
     useEffect(() => {
         const endOffset = booksOffset + cfg.booksPerPage;
-        setCurrentBooks(props.books.slice(booksOffset, endOffset) || []);
-    }, [props.books, booksOffset]);
+        setCurrentBooks(books.slice(booksOffset, endOffset) || []);
+    }, [books, booksOffset]);
 
     const handlePageClick = (event: { selected: number }) => {
-        const newOffset = (event.selected * cfg.booksPerPage) % (props.books.length || 1);
+        const newOffset = (event.selected * cfg.booksPerPage) % (books.length || 1);
         setBooksOffset(newOffset);
     };
 
@@ -55,8 +55,8 @@ interface BooksListProps {
     books: Array<BookModel>;
 }
 
-function BooksList(props: BooksListProps) {
-    if (props.books.length === 0) {
+function BooksList({books}: BooksListProps) {
+    if (books.length === 0) {
         return (
             <div className="books-block__list">
                 <Book isCreator={true}/>
@@ -67,8 +67,7 @@ function BooksList(props: BooksListProps) {
 
     return (
         <div className="books-block__list">
-            <Book isCreator={true}/>
-            {props.books?.map((book, idx) => <Book
+            {books?.map((book, idx) => <Book
                 isCreator={false}
                 book={{
                     id: book.id,
@@ -79,6 +78,7 @@ function BooksList(props: BooksListProps) {
                 }}
                 key={idx}
             />)}
+            <Book isCreator={true}/>
         </div>
     );
 }

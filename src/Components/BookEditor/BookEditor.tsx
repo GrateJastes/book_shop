@@ -10,6 +10,7 @@ import { GenresField } from '../GenresField/GenresField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
+import './BookEditor.scss';
 
 
 export interface BookEditorProps {
@@ -89,37 +90,37 @@ export function BookEditor({book, isCreation=false, onCancel}: BookEditorProps) 
 
     return (
         <form onSubmit={saveEditedBook} className="book book_editing">
-            <div className="book__editor-field">
+            <div className="book-editor__field">
                 <span>Название</span>
                 <input
                     onChange={onFieldChange}
                     name="name"
                     defaultValue={book?.name}
                     placeholder="Title"
-                    className="book__editor-input"
+                    className="book-editor__input"
                 />
             </div>
-            <div className="book__editor-field">
+            <div className="book-editor__field">
                 <span>Автор</span>
                 <input
                     onChange={onFieldChange}
                     name="author"
                     defaultValue={book?.author}
                     placeholder="Author"
-                    className="book__editor-input"
+                    className="book-editor__input"
                 />
             </div>
-            <div className="book__editor-field">
+            <div className="book-editor__field">
                 <span>Год написания</span>
                 <DatePicker
                     onChange={onYearChange}
                     showYearPicker
                     selected={new Date(`${book?.year || new Date(Date.now())}`)}
                     dateFormat={'yyyy'}
-                    className={'book__editor-input'}
+                    className={'book-editor__input'}
                 />
             </div>
-            <div className="book__editor-field">
+            <div className="book-editor__field">
                 <span>Жанры</span>
                 <GenresField
                     onChange={(newOption) => setEditorFields((prevState) => {
@@ -128,23 +129,23 @@ export function BookEditor({book, isCreation=false, onCancel}: BookEditorProps) 
                     selectedGenres={book?.genres.map((genre) => genre.id) || []}
                 />
             </div>
-            <div className="book__editor-field">
+            <div className="book-editor__field">
                 <span>Описание</span>
                 <textarea
                     onChange={onFieldChange}
                     name="description"
                     defaultValue={book?.description}
                     placeholder="(необязательно)"
-                    className="book__editor-input book__description-field"
+                    className="book-editor__input book-editor__description"
                 />
             </div>
-            <div className="book__editor-actions">
-                <button onClick={saveEditedBook} className="filters-block__button book__editor-button">
+            <div className="book-editor__actions">
+                <button onClick={saveEditedBook} className="filters-block__button">
                     value={isCreation ? 'Создать' : 'Изменить'}
                 </button>
                 {
                     !isCreation &&
-                    <button onClick={deleteBook} className="filters-block__button book__editor-button">Удалить</button>
+                    <button onClick={deleteBook} className="filters-block__button">Удалить</button>
                 }
             </div>
             <button onClick={onCancel} className="book__edit-button">
