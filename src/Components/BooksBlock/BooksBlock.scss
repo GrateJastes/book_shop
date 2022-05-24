@@ -11,7 +11,6 @@
     justify-content: flex-start;
 
     padding: 0 50px 50px;
-    margin-top: 20px;
   }
 
   &__paginator {
@@ -23,7 +22,49 @@
 .paginator {
   display: flex;
   flex-direction: row;
-  list-style-type: none;
+  justify-content: space-between;
+
+  width: 150px;
+
+
+  &__button {
+    cursor: pointer;
+
+    border: none;
+    border-bottom: 1px dotted #6a6666;
+    outline: none;
+
+    padding: 0 10px;
+
+    color: #6a6666;
+    font-size: larger;
+
+    background-color: transparent;
+
+    &:hover {
+      border-bottom: 1px solid #6a6666;
+    }
+
+    &_selected {
+      background-color: white;
+      border-bottom: 1px solid transparent;
+
+      &:hover {
+        border-bottom: 1px solid transparent;
+      }
+    }
+  }
+
+  &__page-button {
+    &:hover {
+    }
+  }
+
+  &__page-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+  }
 
   &__page-item {
     color: black;

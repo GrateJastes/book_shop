@@ -30,7 +30,7 @@
   }
 
   &__text-input {
-    height: 40px;
+    height: 42px;
     font-size: 14px;
     margin: 5px;
 
@@ -40,6 +40,10 @@
     border-style: solid;
 
     outline: none;
+
+    &_dp {
+      height: 37px;
+    }
 
     &:focus {
       border-color: #2684ff;
@@ -59,9 +63,9 @@
 
   &__search-button {
     width: 180px;
-    height: 40px;
+    height: 41px;
 
-    margin: 5px;
+    margin: 6px;
 
     font-size: larger;
     cursor: pointer;

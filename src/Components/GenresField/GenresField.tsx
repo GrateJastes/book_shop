@@ -26,12 +26,12 @@ export function GenresField({ onChange, selectedGenres }: GenreSelectProps) {
         container: (provided) => ({
             ...provided,
             width: '200px',
-            height: '44px',
+            height: '41px',
         }),
         control: (provided, state: ControlProps<MultiSelectOption>) => ({
             ...provided,
             borderRadius: '5px',
-            height: '44px',
+            height: '41px',
             margin: '5px',
             borderColor: '#31313157',
             borderStyle: 'solid',
@@ -42,7 +42,7 @@ export function GenresField({ onChange, selectedGenres }: GenreSelectProps) {
     return (
         <Select
             defaultValue={selectedGenreOptions}
-            placeholder={'Жанры'}
+            placeholder={''}
             name={'genres'}
             options={fullGenreOptions}
             onChange={(val: MultiValue<MultiSelectOption>) => {

@@ -5,7 +5,6 @@ import './Book.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons'
 import { useDeleteBookByIDMutation } from '../../Store/BooksLoader/BooksAPI';
-import TrashCan from '../../Assets/svg/trash-can-solid.svg';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export interface BookProps {
@@ -53,12 +52,17 @@ export function Book({isCreator = false, book}: BookProps) {
             </div>
             <div className="book__field">
                 <div className="book__field-name">Жанры</div>
-                <div className="book__genres">
+                <p className="book__genres">
                     {
-                        book?.genres.map((genre, idx) =>
-                            <span className="book__genre" key={idx}>{genre.name}</span>)
+                        book?.genres.map((genre, idx) => {
+                            return (
+                                <span key={idx}>
+                                    {genre.name}{idx === book?.genres.length - 1 ? '' : ', '}
+                                </span>
+                            );
+                        })
                     }
-                </div>
+                </p>
             </div>
             <div className="book__field">
                 <div className="book__field-name">Год публикации</div>
