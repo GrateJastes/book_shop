@@ -3,15 +3,6 @@ export interface Genre {
     name: string;
 }
 
-export interface BookUpdateModel {
-    id: number;
-    name?: string | null;
-    author?: string | null;
-    year?: number | null;
-    genreIds?: Array<number> | null;
-    description?: string | null;
-}
-
 export interface BookModel {
     id: number;
     name: string;
@@ -21,25 +12,26 @@ export interface BookModel {
     description?: string;
 }
 
-export interface BookCreationModel {
-    id: number;
+interface UnknownBookProps {
     name: string | null;
     author: string | null;
-    year: number | null;
     genreIds: Array<number> | null;
     description: string | null;
 }
+
+export interface SearchSample extends UnknownBookProps {
+    yearFrom: number | null;
+    yearTo: number | null;
+}
+
+export interface BookUpdateModel extends UnknownBookProps {
+    id: number;
+    year: number | null;
+}
+
+export interface BookCreationModel extends BookUpdateModel {}
 
 export interface MultiSelectOption {
     value: number;
     label: string;
-}
-
-export interface SearchSample {
-    name: string | null;
-    author: string | null;
-    yearFrom: number | null;
-    yearTo: number | null;
-    genreIds: Array<number> | null;
-    description: string | null;
 }

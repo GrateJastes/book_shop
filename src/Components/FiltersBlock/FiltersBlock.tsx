@@ -1,5 +1,5 @@
 import { MultiSelectOption, SearchSample } from '../../Store/BooksLoader/types';
-import { FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { GenresField } from '../GenresField/GenresField';
 import DatePicker from 'react-datepicker';
 import './FiltersBlock.scss';
@@ -40,32 +40,32 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
         applyFilters();
     }, []);
 
+    const onFieldChange = (ev: ChangeEvent<HTMLInputElement>) => setFilterFields((prevState) => ({
+        ...prevState,
+        [ev.target.name]: ev.target.value,
+    }));
+
+    const onDateChange = (fieldName: string) => (date: Date | null) => setFilterFields((prevState) => ({
+        ...prevState,
+        [fieldName]: date,
+    }));
+
     return (
-        <form
-            className="filters-block"
-            onSubmit={(ev: FormEvent) => {
-                ev.preventDefault();
-                applyFilters();
-            }}>
-            <div className="filters-block__main-info">
-                <div className="filters-block__filter-field">
-                    <span className="filters-block__field-name">Название</span>
-                    <input
-                        type="text"
-                        className="filters-block__text-input"
-                        onChange={(event) => setFilterFields((prevState) => {
-                            return {...prevState, name: event.target.value};
-                        })}/>
-                </div>
-                <div className="filters-block__filter-field">
-                    <span className="filters-block__field-name">Автор</span>
-                    <input
-                        type="text"
-                        className="filters-block__text-input"
-                        onChange={(event) => setFilterFields((prevState) => {
-                            return {...prevState, author: event.target.value};
-                        })}/>
-                </div>
+        <form onSubmit={(ev) => ev.preventDefault()} className="filters-block">
+            <div className="filters-block__filter-field">
+                <span className="filters-block__field-name">Название</span>
+                <input
+                    name="name"
+                    type="search"
+                    className="filters-block__text-input"
+                    onChange={onFieldChange}/>
+            </div>
+            <div className="filters-block__filter-field">
+                <span className="filters-block__field-name">Автор</span>
+                <input
+                    name="author"
+                    className="filters-block__text-input"
+                    onChange={onFieldChange}/>
             </div>
             <div className="filters-block__filter-field">
                 <span className="filters-block__field-name">Жанры</span>
@@ -76,34 +76,35 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
                 />
             </div>
             <div className="filters-block__filter-field">
-                <span className="filters-block__field-name">Годы написания</span>
-                <DatePicker
-                    className={'filters-block__date-picker'}
-                    showYearPicker
-                    selected={filterFields.startDate}
-                    onChange={(date) => setFilterFields((prevState) => {
-                        return {...prevState, startDate: date};
-                    })}
-                    selectsStart
-                    startDate={filterFields.startDate}
-                    endDate={filterFields.endDate}
-                />
-                <DatePicker
-                    className={'filters-block__date-picker'}
-                    showYearPicker
-                    selected={filterFields.endDate}
-                    onChange={(date) => setFilterFields((prevState) => {
-                        return {...prevState, endDate: date};
-                    })}
-                    selectsEnd
-                    startDate={filterFields.startDate}
-                    endDate={filterFields.endDate}
-                    minDate={filterFields.startDate}
-                />
+                <span className="filters-block__field-name">Годы публикации</span>
+                <div className="filters-block__years-range">
+                    <DatePicker
+                        className={'filters-block__text-input'}
+                        showYearPicker
+                        selected={filterFields.startDate}
+                        onChange={onDateChange('startDate')}
+                        selectsStart
+                        startDate={filterFields.startDate}
+                        endDate={filterFields.endDate}
+                    />
+                    <DatePicker
+                        className={'filters-block__text-input'}
+                        showYearPicker
+                        selected={filterFields.endDate}
+                        onChange={onDateChange('endDate')}
+                        selectsEnd
+                        startDate={filterFields.startDate}
+                        endDate={filterFields.endDate}
+                        minDate={filterFields.startDate}
+                    />
+                </div>
             </div>
-            <div className="filters-block__control-buttons">
-                <input type="submit" className="filters-block__button" value="Найти"/>
-                <button className="filters-block__button" onClick={() => setFilterFields(initialFilterFields)}>Очистить
+            <div className="filters-block__control-buttons filters-block__filter-field">
+                <button className="filters-block__clear-button" onClick={() => setFilterFields(initialFilterFields)}>
+                    Очистить фильтр
+                </button>
+                <button onClick={() => applyFilters()} className="filters-block__search-button">
+                    Найти
                 </button>
             </div>
         </form>

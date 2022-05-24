@@ -55,30 +55,29 @@ interface BooksListProps {
     books: Array<BookModel>;
 }
 
-
 function BooksList(props: BooksListProps) {
     if (props.books.length === 0) {
-        return (<span>No results</span>)
+        return (
+            <div className="books-block__list">
+                <Book isCreator={true}/>
+                <span>По текущему запросу не удалось найти книги</span>
+            </div>
+        );
     }
 
     return (
         <div className="books-block__list">
-            <Book
-                id={0}
-                isCreator={true}
-                author={''}
-                genres={[]}
-                year={0}
-                name={''}
-            />
+            <Book isCreator={true}/>
             {props.books?.map((book, idx) => <Book
-                id={book.id}
                 isCreator={false}
+                book={{
+                    id: book.id,
+                    name: book.name,
+                    author: book.author,
+                    year: book.year,
+                    genres: book.genres,
+                }}
                 key={idx}
-                author={book.author}
-                genres={book.genres}
-                year={book.year}
-                name={book.name}
             />)}
         </div>
     );
