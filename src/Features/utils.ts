@@ -7,7 +7,7 @@ export const axiosBaseQuery = (baseUrl = ''): BaseQueryFn<{
     method?: string,
     data?: any,
     params?: AxiosRequestConfig['params'],
-}> => async ({url, params, data, method}) => await axios({
+}> => async ({ url, params, data, method }) => await axios({
     url,
     params,
     method: method || 'GET',

@@ -29,7 +29,8 @@ export interface BookUpdateModel extends UnknownBookProps {
     year: number | null;
 }
 
-export interface BookCreationModel extends BookUpdateModel {}
+export interface BookCreationModel extends BookUpdateModel {
+}
 
 export interface MultiSelectOption {
     value: number;

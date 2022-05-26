@@ -25,8 +25,8 @@ const initialFilterFields = {
 }
 
 
-export function FiltersBlock({onApply}: FiltersBlockProps) {
-    const [filterFields, setFilterFields] = useState<FilterFields>(initialFilterFields);
+export function FiltersBlock({ onApply }: FiltersBlockProps) {
+    const [ filterFields, setFilterFields ] = useState<FilterFields>(initialFilterFields);
     const applyFilters = () => onApply({
         name: filterFields.name || null,
         author: filterFields.author || null,
@@ -57,7 +57,7 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
                 <input
                     name="name"
                     type="search"
-                    className="filters-block__text-input"
+                    className="filters-block__text-input input-field"
                     onChange={onFieldChange}/>
             </div>
             <div className="filters-block__filter-field">
@@ -65,14 +65,14 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
                 <input
                     name="author"
                     type="search"
-                    className="filters-block__text-input"
+                    className="filters-block__text-input input-field"
                     onChange={onFieldChange}/>
             </div>
             <div className="filters-block__filter-field">
                 <span className="filters-block__field-name">Жанры</span>
                 <GenresField
                     onChange={(newOption) => setFilterFields((prevState) => {
-                        return {...prevState, genres: newOption};
+                        return { ...prevState, genres: newOption };
                     })}
                 />
             </div>
@@ -80,7 +80,7 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
                 <span className="filters-block__field-name">Годы публикации</span>
                 <div className="filters-block__years-range">
                     <DatePicker
-                        className={'filters-block__text-input filters-block__text-input_dp'}
+                        className={'filters-block__text-input input-field filters-block__text-input_dp'}
                         showYearPicker
                         selected={filterFields.startDate}
                         onChange={onDateChange('startDate')}
@@ -90,7 +90,7 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
                         endDate={filterFields.endDate}
                     />
                     <DatePicker
-                        className={'filters-block__text-input filters-block__text-input_dp'}
+                        className={'filters-block__text-input input-field filters-block__text-input_dp'}
                         showYearPicker
                         selected={filterFields.endDate}
                         onChange={onDateChange('endDate')}
@@ -106,7 +106,7 @@ export function FiltersBlock({onApply}: FiltersBlockProps) {
                 <button className="filters-block__clear-button" onClick={() => setFilterFields(initialFilterFields)}>
                     Очистить фильтр
                 </button>
-                <button onClick={() => applyFilters()} className="filters-block__search-button">
+                <button onClick={() => applyFilters()} className="filters-block__search-button button_blue">
                     Найти
                 </button>
             </div>

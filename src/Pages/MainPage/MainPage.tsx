@@ -6,7 +6,7 @@ import './MainPage.scss';
 
 
 function MainPage() {
-    const [fetchBooks, books] = useLazyGetFilteredBooksBySearchQuery();
+    const [ fetchBooks, books ] = useLazyGetFilteredBooksBySearchQuery();
 
     return (
         <div className="page">

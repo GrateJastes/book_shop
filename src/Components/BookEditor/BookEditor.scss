@@ -1,4 +1,31 @@
 .book-editor {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 10px;
+
+  border: none;
+
+  background-color: white;
+
+  &__header {
+    color: black;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  &-content {
+    width: 300px !important;
+    border-radius: 5px;
+  }
+
+  &__fields {
+
+  }
+
   &__field {
     display: flex;
     flex-direction: column;
@@ -6,16 +33,10 @@
 
     margin-top: 15px;
     margin-bottom: 5px;
-  }
 
-  &__actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    width: 220px;
-
-    margin-top: 15px;
+    &-name {
+      color: black;
+    }
   }
 
   &__input {
@@ -27,7 +48,27 @@
     font-size: 16px;
   }
 
-  &__book-editor__description {
+  &__description {
     min-height: 60px;
+  }
+
+  &__close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    border: none;
+    outline: none;
+    background: transparent;
+  }
+
+  &__edit-button {
+    align-self: center;
+    margin-top: 15px;
+
+    font-size: larger;
+
+    width: 130px;
+    height: 45px;
   }
 }

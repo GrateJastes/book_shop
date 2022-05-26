@@ -26,12 +26,16 @@ export function GenresField({ onChange, selectedGenres }: GenreSelectProps) {
         container: (provided) => ({
             ...provided,
             width: '200px',
-            height: '41px',
+            minHeight: '41px',
+        }),
+        option: (provided) => ({
+            ...provided,
+            color: 'black',
         }),
         control: (provided, state: ControlProps<MultiSelectOption>) => ({
             ...provided,
             borderRadius: '5px',
-            height: '41px',
+            minHeight: '41px',
             margin: '5px',
             borderColor: '#31313157',
             borderStyle: 'solid',
@@ -46,7 +50,7 @@ export function GenresField({ onChange, selectedGenres }: GenreSelectProps) {
             name={'genres'}
             options={fullGenreOptions}
             onChange={(val: MultiValue<MultiSelectOption>) => {
-                if (val) onChange([...val]);
+                if (val) onChange([ ...val ]);
             }}
             isMulti
             styles={customStyles}

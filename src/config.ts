@@ -1,4 +1,4 @@
-const config =  {
+const config = {
     backendURL: '/api',
     minSearchLength: 3,
     noOptionText: 'Минимум 3 символа',

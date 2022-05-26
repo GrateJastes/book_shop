@@ -3,6 +3,12 @@
   flex-direction: column;
   align-items: flex-start;
 
+  &__found-number {
+    margin-bottom: 15px;
+
+    font-size: larger;
+  }
+
   &__list {
     display: flex;
     flex-direction: row;
@@ -11,11 +17,6 @@
     justify-content: flex-start;
 
     padding: 0 50px 50px;
-  }
-
-  &__paginator {
-    align-self: flex-end;
-    margin-top: 50px;
   }
 }
 
@@ -35,11 +36,17 @@
     outline: none;
 
     padding: 0 10px;
+    margin: 5px;
 
     color: #6a6666;
     font-size: larger;
 
     background-color: transparent;
+
+    &_control {
+      padding-left: 0;
+      padding-right: 0;
+    }
 
     &:hover {
       border-bottom: 1px solid #6a6666;
@@ -64,39 +71,5 @@
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-  }
-
-  &__page-item {
-    color: black;
-
-    cursor: pointer;
-
-    &_active {
-      background-color: #6a6666;
-      border-color: #6a6666;
-
-      color: white
-    }
-  }
-
-
-  &__page-link {
-    padding: .375rem .75rem;
-    display: flex;
-
-    text-decoration: none;
-
-    &_nav {
-      text-decoration: underline;
-    }
-
-    &:active {
-      color: #6a6666;
-    }
-
-    &:hover {
-      color: white;
-      background-color: #6a6666;
-    }
   }
 }

@@ -1,0 +1,31 @@
+.input-field {
+  border-radius: 5px;
+  border-color: #31313157;
+  border-width: 1px;
+  border-style: solid;
+
+  outline: none;
+
+  &:focus {
+    border-color: #2684ff;
+    box-shadow: 0 0 0 1px #2684ff;
+  }
+}
+
+.button_blue {
+  cursor: pointer;
+
+  border-radius: 5px;
+  border-color: #31313157;
+  border-width: 1px;
+  border-style: solid;
+  outline: none;
+
+  background-color: #2684ff;
+  color: white;
+
+  &_disabled {
+    cursor: default;
+    background-color: #6a6666;
+  }
+}

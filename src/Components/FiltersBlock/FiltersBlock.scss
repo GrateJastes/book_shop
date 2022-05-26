@@ -34,20 +34,8 @@
     font-size: 14px;
     margin: 5px;
 
-    border-radius: 5px;
-    border-color: #31313157;
-    border-width: 1px;
-    border-style: solid;
-
-    outline: none;
-
     &_dp {
       height: 37px;
-    }
-
-    &:focus {
-      border-color: #2684ff;
-      box-shadow: 0 0 0 1px #2684ff;
     }
 
     &::-webkit-search-cancel-button {
@@ -68,16 +56,6 @@
     margin: 6px;
 
     font-size: larger;
-    cursor: pointer;
-
-    border-radius: 5px;
-    border-color: #31313157;
-    border-width: 1px;
-    border-style: solid;
-    outline: none;
-
-    background-color: #2684ff;
-    color: white;
   }
 
   &__clear-button {

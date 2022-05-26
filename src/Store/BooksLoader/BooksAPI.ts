@@ -6,13 +6,13 @@ import cfg from '../../config';
 export const booksAPI = createApi({
     reducerPath: 'booksAPI',
     baseQuery: axiosBaseQuery(),
-    tagTypes: ['Genre', 'Book'],
+    tagTypes: [ 'Genre', 'Book' ],
     endpoints: (builder) => ({
         getGenres: builder.query<Array<Genre>, void>({
             query: () => ({
                 url: `${cfg.backendURL}/genre`,
             }),
-            providesTags: () => ['Genre'],
+            providesTags: () => [ 'Genre' ],
         }),
         getFilteredBooksBySearch: builder.query<Array<BookModel>, SearchSample>({
             query: (sample: SearchSample) => ({
@@ -21,7 +21,7 @@ export const booksAPI = createApi({
                     ...sample,
                 },
             }),
-            providesTags: () => ['Book'],
+            providesTags: () => [ 'Book' ],
         }),
         postNewBook: builder.mutation<string, BookCreationModel>({
             query: (bookInfo: BookCreationModel) => ({
@@ -29,7 +29,7 @@ export const booksAPI = createApi({
                 method: 'POST',
                 data: bookInfo,
             }),
-            invalidatesTags: ['Book'],
+            invalidatesTags: [ 'Book' ],
         }),
         patchBookByID: builder.mutation<string, BookUpdateModel>({
             query: (bookInfo: BookCreationModel) => ({
@@ -37,14 +37,14 @@ export const booksAPI = createApi({
                 method: 'PATCH',
                 data: bookInfo,
             }),
-            invalidatesTags: ['Book'],
+            invalidatesTags: [ 'Book' ],
         }),
         deleteBookByID: builder.mutation<string, number>({
             query: (bookId: number) => ({
                 url: `${cfg.backendURL}/books/${bookId}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: ['Book'],
+            invalidatesTags: [ 'Book' ],
         }),
     }),
 });

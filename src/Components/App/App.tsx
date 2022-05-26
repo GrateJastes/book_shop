@@ -1,9 +1,10 @@
 import React from 'react';
-import './App.scss';
 import { Provider } from 'react-redux';
 import { store } from '../../Store/store'
 import { BrowserRouter as Router } from 'react-router-dom';
 import MainPage from '../../Pages/MainPage/MainPage';
+import './App.scss';
+import '../../Assets/Styles/common.scss';
 
 
 function App() {
