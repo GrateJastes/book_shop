@@ -1,32 +1,11 @@
-.books-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  &__found-number {
-    margin-bottom: 15px;
-
-    font-size: larger;
-  }
-
-  &__list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: flex-start;
-
-    padding: 0 50px 50px;
-  }
-}
-
 .paginator {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
-  width: 150px;
+  align-self: flex-start;
 
+  width: 150px;
 
   &__button {
     cursor: pointer;

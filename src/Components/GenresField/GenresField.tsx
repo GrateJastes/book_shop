@@ -45,7 +45,7 @@ export function GenresField({ onChange, selectedGenres }: GenreSelectProps) {
 
     return (
         <Select
-            defaultValue={selectedGenreOptions}
+            value={selectedGenreOptions}
             placeholder={''}
             name={'genres'}
             options={fullGenreOptions}

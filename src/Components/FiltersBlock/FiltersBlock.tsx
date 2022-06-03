@@ -1,44 +1,29 @@
-import { MultiSelectOption, SearchSample } from '../../Store/BooksLoader/types';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { GenresField } from '../GenresField/GenresField';
 import DatePicker from 'react-datepicker';
 import './FiltersBlock.scss';
+import { BooksFilter, DEFAULT_FILTER } from '../../Pages/MainPage/MainPage';
 
 export interface FiltersBlockProps {
-    onApply: (sample: SearchSample) => void;
+    onApply: (arg: BooksFilter) => void;
+    value: BooksFilter,
 }
 
-interface FilterFields {
-    name: string | null;
-    author: string | null;
-    genres: Array<MultiSelectOption> | null;
-    startDate: Date | null;
-    endDate: Date | null;
-}
-
-const initialFilterFields = {
-    name: null,
-    author: null,
-    genres: null,
-    startDate: null,
-    endDate: null,
-}
-
-
-export function FiltersBlock({ onApply }: FiltersBlockProps) {
-    const [ filterFields, setFilterFields ] = useState<FilterFields>(initialFilterFields);
-    const applyFilters = () => onApply({
-        name: filterFields.name || null,
-        author: filterFields.author || null,
-        genreIds: filterFields.genres?.map((genre) => genre.value) || null,
-        yearFrom: filterFields.startDate?.getFullYear() || null,
-        yearTo: filterFields.endDate?.getFullYear() || null,
-        description: null,
-    });
+export function FiltersBlock({onApply, value}: FiltersBlockProps) {
+    const [ filterFields, setFilterFields ] = useState<BooksFilter>(value);
 
     useEffect(() => {
-        applyFilters();
-    }, []);
+        setFilterFields(value);
+    }, [value]);
+
+    const applyFilters = () => {
+        onApply(filterFields);
+    };
+
+    const onFilterClear = () => {
+        setFilterFields(DEFAULT_FILTER);
+        onApply(DEFAULT_FILTER);
+    };
 
     const onFieldChange = (ev: ChangeEvent<HTMLInputElement>) => setFilterFields((prevState) => ({
         ...prevState,
@@ -47,8 +32,13 @@ export function FiltersBlock({ onApply }: FiltersBlockProps) {
 
     const onDateChange = (fieldName: string) => (date: Date | null) => setFilterFields((prevState) => ({
         ...prevState,
-        [fieldName]: date,
+        [fieldName]: date?.getFullYear() || null,
     }));
+
+    const convertYearToDate = (year: number | null): Date | null => year === null ? null : new Date(year);
+
+    const startDate = convertYearToDate(filterFields.yearFrom);
+    const endDate = convertYearToDate(filterFields.yearTo);
 
     return (
         <form onSubmit={(ev) => ev.preventDefault()} className="filters-block">
@@ -56,24 +46,28 @@ export function FiltersBlock({ onApply }: FiltersBlockProps) {
                 <span className="filters-block__field-name">Название</span>
                 <input
                     name="name"
-                    type="search"
-                    className="filters-block__text-input input-field"
-                    onChange={onFieldChange}/>
+                    className="filters-block__text-input"
+                    onChange={onFieldChange}
+                    value={filterFields.name || ''}
+                />
             </div>
             <div className="filters-block__filter-field">
                 <span className="filters-block__field-name">Автор</span>
                 <input
                     name="author"
-                    type="search"
-                    className="filters-block__text-input input-field"
-                    onChange={onFieldChange}/>
+                    className="filters-block__text-input"
+                    onChange={onFieldChange}
+                    value={filterFields.author || ''}
+                />
             </div>
             <div className="filters-block__filter-field">
                 <span className="filters-block__field-name">Жанры</span>
                 <GenresField
-                    onChange={(newOption) => setFilterFields((prevState) => {
-                        return { ...prevState, genres: newOption };
-                    })}
+                    selectedGenres={filterFields.genreIds || undefined}
+                    onChange={(newOption) => setFilterFields((prevState) => ({
+                        ...prevState,
+                        genreIds: newOption.map((option) => option.value)
+                    }))}
                 />
             </div>
             <div className="filters-block__filter-field">
@@ -82,31 +76,35 @@ export function FiltersBlock({ onApply }: FiltersBlockProps) {
                     <DatePicker
                         className={'filters-block__text-input input-field filters-block__text-input_dp'}
                         showYearPicker
-                        selected={filterFields.startDate}
-                        onChange={onDateChange('startDate')}
+                        selected={startDate}
+                        onChange={onDateChange('yearTo')}
                         selectsStart
                         dateFormat={'yyyy'}
-                        startDate={filterFields.startDate}
-                        endDate={filterFields.endDate}
+                        startDate={startDate}
+                        endDate={endDate}
                     />
                     <DatePicker
                         className={'filters-block__text-input input-field filters-block__text-input_dp'}
                         showYearPicker
-                        selected={filterFields.endDate}
-                        onChange={onDateChange('endDate')}
+                        selected={endDate}
+                        onChange={onDateChange('yearFrom')}
                         selectsEnd
                         dateFormat={'yyyy'}
-                        startDate={filterFields.startDate}
-                        endDate={filterFields.endDate}
-                        minDate={filterFields.startDate}
+                        startDate={startDate}
+                        endDate={endDate}
+                        minDate={startDate}
                     />
                 </div>
             </div>
             <div className="filters-block__control-buttons filters-block__filter-field">
-                <button className="filters-block__clear-button" onClick={() => setFilterFields(initialFilterFields)}>
+                <button
+                    className="filters-block__clear-button"
+                    onClick={onFilterClear}>
                     Очистить фильтр
                 </button>
-                <button onClick={() => applyFilters()} className="filters-block__search-button button_blue">
+                <button
+                    onClick={() => applyFilters()}
+                    className="filters-block__search-button button_blue">
                     Найти
                 </button>
             </div>

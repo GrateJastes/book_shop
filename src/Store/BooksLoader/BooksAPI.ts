@@ -51,7 +51,7 @@ export const booksAPI = createApi({
 
 export const {
     useGetGenresQuery,
-    useLazyGetFilteredBooksBySearchQuery,
+    useGetFilteredBooksBySearchQuery,
     usePostNewBookMutation,
     useDeleteBookByIDMutation,
     usePatchBookByIDMutation,
