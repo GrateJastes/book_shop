@@ -68,7 +68,6 @@ export function Book({ isCreator = false, book }: BookProps) {
                 {editButton}
                 <Popup
                     open={isEditing}
-                    lockScroll={true}
                     onClose={() => setEditing(false)}
                     className={'book-editor'}>
                     <div className="modal">

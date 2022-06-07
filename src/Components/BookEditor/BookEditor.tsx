@@ -111,7 +111,7 @@ export function BookEditor({ book, isCreation = false, onSave, onCancel }: BookE
                         name="name"
                         defaultValue={book?.name}
                         placeholder="Title"
-                        className="book-editor__input"
+                        className="book-editor__input input-field"
                     />
                 </div>
                 <div className="book-editor__field">
@@ -121,7 +121,7 @@ export function BookEditor({ book, isCreation = false, onSave, onCancel }: BookE
                         name="author"
                         defaultValue={book?.author}
                         placeholder="Author"
-                        className="book-editor__input"
+                        className="book-editor__input input-field"
                     />
                 </div>
                 <div className="book-editor__field">
@@ -131,7 +131,7 @@ export function BookEditor({ book, isCreation = false, onSave, onCancel }: BookE
                         showYearPicker
                         selected={new Date(`${editorFields.year || book?.year || new Date(Date.now())}`)}
                         dateFormat={'yyyy'}
-                        className={'book-editor__input'}
+                        className={'book-editor__input input-field'}
                     />
                 </div>
                 <div className="book-editor__field">
@@ -148,7 +148,7 @@ export function BookEditor({ book, isCreation = false, onSave, onCancel }: BookE
                         name="description"
                         defaultValue={book?.description || ''}
                         placeholder="(необязательно)"
-                        className="book-editor__input book-editor__description"
+                        className="book-editor__input input-field book-editor__description"
                     />
                 </div>
             </div>

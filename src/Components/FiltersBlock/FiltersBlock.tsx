@@ -9,8 +9,10 @@ export interface FiltersBlockProps {
     value: BooksFilter,
 }
 
+const convertYearToDate = (year: number | null): Date | null => year === null ? null : new Date(`${year}`);
+
 export function FiltersBlock({onApply, value}: FiltersBlockProps) {
-    const [ filterFields, setFilterFields ] = useState<BooksFilter>(value);
+    const [filterFields, setFilterFields] = useState<BooksFilter>(value);
 
     useEffect(() => {
         setFilterFields(value);
@@ -35,8 +37,6 @@ export function FiltersBlock({onApply, value}: FiltersBlockProps) {
         [fieldName]: date?.getFullYear() || null,
     }));
 
-    const convertYearToDate = (year: number | null): Date | null => year === null ? null : new Date(year);
-
     const startDate = convertYearToDate(filterFields.yearFrom);
     const endDate = convertYearToDate(filterFields.yearTo);
 
@@ -46,7 +46,7 @@ export function FiltersBlock({onApply, value}: FiltersBlockProps) {
                 <span className="filters-block__field-name">Название</span>
                 <input
                     name="name"
-                    className="filters-block__text-input"
+                    className="filters-block__text-input input-field"
                     onChange={onFieldChange}
                     value={filterFields.name || ''}
                 />
@@ -55,7 +55,7 @@ export function FiltersBlock({onApply, value}: FiltersBlockProps) {
                 <span className="filters-block__field-name">Автор</span>
                 <input
                     name="author"
-                    className="filters-block__text-input"
+                    className="filters-block__text-input input-field"
                     onChange={onFieldChange}
                     value={filterFields.author || ''}
                 />
@@ -77,7 +77,7 @@ export function FiltersBlock({onApply, value}: FiltersBlockProps) {
                         className={'filters-block__text-input input-field filters-block__text-input_dp'}
                         showYearPicker
                         selected={startDate}
-                        onChange={onDateChange('yearTo')}
+                        onChange={onDateChange('yearFrom')}
                         selectsStart
                         dateFormat={'yyyy'}
                         startDate={startDate}
@@ -87,7 +87,7 @@ export function FiltersBlock({onApply, value}: FiltersBlockProps) {
                         className={'filters-block__text-input input-field filters-block__text-input_dp'}
                         showYearPicker
                         selected={endDate}
-                        onChange={onDateChange('yearFrom')}
+                        onChange={onDateChange('yearTo')}
                         selectsEnd
                         dateFormat={'yyyy'}
                         startDate={startDate}
